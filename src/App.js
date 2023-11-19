@@ -8,6 +8,7 @@ import Footer from "./Components/Footer";
 import Login from "./Components/Login";
 import AddSeed from "./Components/Seed/AddSeed";
 import EditSeed from "./Components/Seed/EditSeed";
+import AddPlantation from "./Components/Plantation/AddPlantation";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/seed" element={<AddSeed/>}/>
                   <Route path="/editSeed/:id" element={<EditSeed/>}/>
+                  <Route path="/plantation" element={<AddPlantation/>}/>
               </Routes>
           </div>
           <Footer/>

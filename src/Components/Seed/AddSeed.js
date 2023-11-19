@@ -31,7 +31,6 @@ const AddSeed = () => {
         try {
             const res = await axios.post('http://localhost:9091/api/seed/add', formData, config);
             setResponse(res.data);
-
             navigate('/home')
         }
         catch (error) {
