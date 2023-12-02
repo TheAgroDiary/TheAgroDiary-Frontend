@@ -9,6 +9,9 @@ import Login from "./Components/Login";
 import AddSeed from "./Components/Seed/AddSeed";
 import EditSeed from "./Components/Seed/EditSeed";
 import AddPlantation from "./Components/Plantation/AddPlantation";
+import ListPlantation from "./Components/Plantation/ListPlantation";
+import EditPlantation from "./Components/Plantation/EditPlantation";
+import DeletePlantation from "./Components/Plantation/DeletePlantation";
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
                   <Route path="/seed" element={<AddSeed/>}/>
                   <Route path="/editSeed/:id" element={<EditSeed/>}/>
                   <Route path="/plantation" element={<AddPlantation/>}/>
+                  <Route path="/plantation/all" element={<ListPlantation/>}/>
+                  <Route path="/editPlantation/:id" element={<EditPlantation/>}/>
+                  <Route path="/deletePlantation/:id" element={<DeletePlantation/>}/>
               </Routes>
           </div>
           <Footer/>

@@ -34,17 +34,6 @@ const AddPlantation = () => {
         }
     }, [token]);
 
-    // useEffect(() => {
-    //     // Fetch the list of seeds when the component mounts
-    //     axios.get('http://localhost:9091/api/seed/seeds', config)
-    //         .then(response => {
-    //             setSeeds(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching seeds: ', error);
-    //         });
-    // }, [config]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -110,28 +99,22 @@ const AddPlantation = () => {
                     placeholder="Amount in kg"
                 />
                 <input
-                    type="text"
+                    type="hidden"
                     onChange={handleChange}
                     name='personId'
                     placeholder="Person"
                     value={formData.personId} // Set value from state
                     readOnly // Prevent user from editing the username field
                 />
-                {/*<input*/}
-                {/*    type="number"*/}
-                {/*    onChange={handleChange}*/}
-                {/*    name='seed'*/}
-                {/*    placeholder="Seed"*/}
-                {/*/>*/}
                 <select name="seedId" onChange={handleChange} value={formData.seedId}>
                     <option value="" disabled>Select Seed</option>
                     {seeds.map(seedId => (
-                        <option key={seedId.id} value={seedId.id}>
-                            {seedId.seedId}
+                        <option key={seedId.seedId} value={seedId.seedId}>
+                            {seedId.seedName}
                         </option>
                     ))}
                 </select>
-                <button type='submit'>Add Seed</button>
+                <button type='submit'> Додади сеидба </button>
             </form>
         </div>
     );

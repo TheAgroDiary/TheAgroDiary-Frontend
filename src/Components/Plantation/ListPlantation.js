@@ -1,96 +1,141 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import axios from "axios";
+// import React, {useEffect, useState} from "react";
+// import axios from "axios";
+// import Pagination from "../Pagination";
+//
+//
+// const ListPlantation = () => {
+//     const [plantations, setPlantations] = useState([]);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [plantationsPerPage] = useState(5); // Change this value for items per page
+//
+//     const token = localStorage.getItem('jwt');
+//     const config = {
+//         headers: {
+//             'Authorization': `Bearer ${token}`,
+//         }
+//     };
+//
+//     useEffect(() => {
+//         fetchPlantations();
+//     }, []);
+//
+//     const fetchPlantations = () => {
+//         axios.get('http://localhost:9091/api/plantation/all', config)
+//             .then(response => {
+//                 setPlantations(response.data);
+//             })
+//             .catch(error => {
+//                 console.error('Error fetching plantations: ', error);
+//             });
+//     };
+//
+//     // Pagination
+//     const indexOfLastPlantation = currentPage * plantationsPerPage;
+//     const indexOfFirstPlantation = indexOfLastPlantation - plantationsPerPage;
+//     const currentPlantations = plantations.slice(indexOfFirstPlantation, indexOfLastPlantation);
+//
+//     const paginate = pageNumber => setCurrentPage(pageNumber);
+//
+//     return (
+//         <div>
+//             <table>
+//                 <thead>
+//                 <tr>
+//                     <th> Ид </th>
+//                     <th> Име на сорта </th>
+//                     <th> Семе </th>
+//                     <th> Година </th>
+//                     <th> Човек </th>
+//                 </tr>
+//                 </thead>
+//                 <tbody>
+//                 {currentPlantations.map(plantation => (
+//                     <tr key={plantation.id}>
+//                         <td>{plantation.id}</td>
+//                         <td>{plantation.type}</td>
+//                         <td>{plantation.seedId}</td>
+//                         <td>{plantation.year}</td>
+//                         <td>{plantation.personId}</td>
+//                     </tr>
+//                 ))}
+//                 </tbody>
+//             </table>
+//             <Pagination
+//                 itemsPerPage={plantationsPerPage}
+//                 totalItems={plantations.length}
+//                 paginate={paginate}
+//             />
+//         </div>
+//     );
+// };
+//
+// export default ListPlantation;
 
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Pagination from "../Pagination";
 
 const ListPlantation = () => {
-    const [formData, setFormData] = useState({
-        type: '',
-        year: '',
-        amountKg: '',
-        person: '',
-        seed: '',
-    });
+    const [plantations, setPlantations] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [plantationsPerPage] = useState(5); // Change this value for items per page
 
-    const [seeds, setSeeds] = useState([]);
-    const [response, setResponse] = useState(null);
-
-    const navigate = useNavigate();
-
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwt');
     const config = {
         headers: {
-            'Authorization' : `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
         }
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const response = await fetch('http://localhost:9091/api/plantation/all', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify(formData),
-        });
-
-        const data = await response.json();
-        console.log('Fetch Response:', data);
-
-        // try {
-        //     const res = await axios.post('http://localhost:9091/api/plantation/add', formData, config);
-        //     setResponse(res.data);
-        //     console.log('Config is: ')
-        //     navigate('/home')
-        // }
-        // catch (error) {
-        //     console.log('Config is: ')
-        //     console.error('Грешка при додавање: ', error);
-        //     setResponse('Неуспешно додавање на сеидба. Обидете се повторно!')
-        //     const res = await axios.post('http://localhost:9091/api/plantation/add', formData, config);
-        //     console.log("Result is: " + res);
-        //     setResponse(res.data);
-        //     navigate('/home')
-        // }
     };
 
     useEffect(() => {
-        // Fetch the list of seeds when the component mounts
-        axios.get('http://localhost:9091/api/plantation/all', config)
-            .then(response => {
-                setSeeds(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching seeds: ', error);
-            });
+        fetchPlantations();
     }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value
-        }));
+    const fetchPlantations = () => {
+        axios.get('http://localhost:9091/api/plantation/my', config)
+            .then(response => {
+                setPlantations(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching plantations: ', error);
+            });
     };
+
+    // Pagination
+    const indexOfLastPlantation = currentPage * plantationsPerPage;
+    const indexOfFirstPlantation = indexOfLastPlantation - plantationsPerPage;
+    const currentPlantations = plantations.slice(indexOfFirstPlantation, indexOfLastPlantation);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <table>
+                <thead>
                 <tr>
-                    <td>{plantations}</td>
+                    <th> ИД </th>
+                    <th> Семе </th>
+                    <th> Вид семе </th>
+                    {/* Add more table headers as needed */}
                 </tr>
-                <select name="seed" onChange={handleChange} value={formData.seed}>
-                    <option value="" disabled>Select Seed</option>
-                    {seeds.map(seed => (
-                        <option key={seed.id} value={seed.id}>
-                            {seed.seedName}
-                        </option>
-                    ))}
-                </select>
-                <button type='submit'>Add Seed</button>
-            </form>
+                </thead>
+                <tbody>
+                {currentPlantations.map(plantation => (
+                    <tr key={plantation.plantationId}>
+                        <td>{plantation.plantationId}</td>
+                        <td>{plantation.seed.seedName}</td>
+                        <td>{plantation.type}</td>
+                        {/* Add more table data as needed */}
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            <Pagination
+                itemsPerPage={plantationsPerPage}
+                totalItems={plantations.length}
+                paginate={paginate}
+            />
         </div>
     );
 };
