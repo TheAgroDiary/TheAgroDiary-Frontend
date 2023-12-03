@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const EditPlantation = () => {
+const EditYield = () => {
 
     const { id } = useParams();
     const [seeds, setSeeds] = useState([]);
-
-    console.log("Id from above")
-    console.log(id)
 
     const [formData, setFormData] = useState({
         type: '',
@@ -62,13 +59,13 @@ const EditPlantation = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.put(`http://localhost:9091/api/plantation/edit/${id}`, formData, config);
+            const res = await axios.put(`http://localhost:9091/api/yield/edit/${id}`, formData, config);
             setResponse(res.data);
 
-            navigate('/home');
+            navigate('/yield/all');
         } catch (error) {
             console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена на семето. Обидете се повторно!');
+            setResponse('Неуспешна промена на принос. Обидете се повторно!');
         }
     };
 
@@ -104,11 +101,11 @@ const EditPlantation = () => {
                     value={formData.amountKg}
                     placeholder={formData.amountKg}
                 />
-                <button type='submit'> Ажурирај сеидба </button>
+                <button type='submit'> Ажурирај принос </button>
             </form>
         </div>
     );
 }
 
-export default EditPlantation;
+export default EditYield;
 

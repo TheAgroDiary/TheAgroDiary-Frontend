@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const AddPlantation = () => {
+const AddYield = () => {
     const [formData, setFormData] = useState({
         type: '',
         year: '',
@@ -38,7 +38,7 @@ const AddPlantation = () => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                'http://localhost:9091/api/plantation/add',
+                'http://localhost:9091/api/yield/add',
                 formData,
                 {
                     headers: {
@@ -51,10 +51,10 @@ const AddPlantation = () => {
             console.log('Response:', data);
             // Handle success
             setResponse(res.data);
-            navigate('/home')
+            navigate('/yield/all')
         } catch (error) {
             console.error('Грешка при додавање: ', error);
-            setResponse('Неуспешно додавање на сеидба. Обидете се повторно!')
+            setResponse('Неуспешно додавање на принос. Обидете се повторно!')
         }
     };
 
@@ -84,19 +84,19 @@ const AddPlantation = () => {
                     type="text"
                     onChange={handleChange}
                     name='type'
-                    placeholder="Type of Seed"
+                    placeholder="Сорта семе"
                 />
                 <input
                     type="number"
                     onChange={handleChange}
                     name='year'
-                    placeholder="Year"
+                    placeholder="Година"
                 />
                 <input
                     type="number"
                     onChange={handleChange}
                     name='amountKg'
-                    placeholder="Amount in kg"
+                    placeholder="Количина во кг."
                 />
                 <input
                     type="hidden"
@@ -114,10 +114,10 @@ const AddPlantation = () => {
                         </option>
                     ))}
                 </select>
-                <button type='submit'> Додади сеидба </button>
+                <button type='submit'> Додади принос </button>
             </form>
         </div>
     );
 }
 
-export default AddPlantation;
+export default AddYield;

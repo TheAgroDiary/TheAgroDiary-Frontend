@@ -75,6 +75,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../Pagination";
+import {Link} from "react-router-dom";
 
 const ListPlantation = () => {
     const [plantations, setPlantations] = useState([]);
@@ -111,12 +112,19 @@ const ListPlantation = () => {
 
     return (
         <div>
+            <Link to="/yield/add">
+                <button className="btn btn-primary">
+                    Додади нова сеидба
+                </button>
+            </Link>
             <table>
                 <thead>
                 <tr>
                     <th> ИД </th>
                     <th> Семе </th>
                     <th> Вид семе </th>
+                    <th> Количина во кг. </th>
+                    <th>  </th>
                     {/* Add more table headers as needed */}
                 </tr>
                 </thead>
@@ -126,6 +134,8 @@ const ListPlantation = () => {
                         <td>{plantation.plantationId}</td>
                         <td>{plantation.seed.seedName}</td>
                         <td>{plantation.type}</td>
+                        <td>{plantation.amountKg}</td>
+                        <td> <Link to={`/editYield/${plantation.plantationId}`}> <button> Измени </button> </Link> </td>
                         {/* Add more table data as needed */}
                     </tr>
                 ))}

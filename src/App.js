@@ -12,6 +12,10 @@ import AddPlantation from "./Components/Plantation/AddPlantation";
 import ListPlantation from "./Components/Plantation/ListPlantation";
 import EditPlantation from "./Components/Plantation/EditPlantation";
 import DeletePlantation from "./Components/Plantation/DeletePlantation";
+import AddYield from "./Components/Yield/AddYield";
+import ListYield from "./Components/Yield/ListYield";
+import EditYield from "./Components/Yield/EditYield";
+import ListExpense from "./Components/Expense/ListExpense";
 
 function App() {
   return (
@@ -29,6 +33,10 @@ function App() {
                   <Route path="/plantation/all" element={<ListPlantation/>}/>
                   <Route path="/editPlantation/:id" element={<EditPlantation/>}/>
                   <Route path="/deletePlantation/:id" element={<DeletePlantation/>}/>
+                  <Route path="/yield/add" element={<AddYield/>}/>
+                  <Route path="/yield/all" element={<ListYield/>}/>
+                  <Route path="/editYield/:id" element={<EditYield/>}/>
+                  <Route path="/expense/all" element={<ListExpense/>}/>
               </Routes>
           </div>
           <Footer/>
