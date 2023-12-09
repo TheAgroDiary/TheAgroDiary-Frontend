@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Link from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -43,15 +42,6 @@ const Register = () => {
     return (
         <div>
             <h2> Регистрација </h2>
-            {/*{isRegistered ? (*/}
-            {/*    <div>*/}
-            {/*        <p> Успешна регистрација! </p>*/}
-            {/*        <p> Име: {response.firstName} </p>*/}
-            {/*        <p> Презиме: {response.lastName} </p>*/}
-            {/*        <p> Корисничко име: {response.username} </p>*/}
-            {/*        <p> Лозинка: {response.password} </p>*/}
-            {/*    </div>*/}
-            {/*) : (*/}
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="firstName"> Име </label>
@@ -71,7 +61,6 @@ const Register = () => {
                     </div>
                     <button type="submit"> Потврди </button>
                 </form>
-            {/*)}*/}
 
         </div>
     )

@@ -2,20 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const EditExpense = () => {
+const EditRevenue = () => {
 
     const { id } = useParams();
     const [seeds, setSeeds] = useState([]);
-    const [categories, setCategories] = useState([]);
 
     const [formData, setFormData] = useState({
-        expenseSum: '',
+        revenueSum: '',
         date: '',
         seedAmountKg: '',
-        description: '',
         personId: '',
         seedId: '',
-        categoryId: '',
     });
 
     const [response, setResponse] = useState(null);
@@ -32,30 +29,26 @@ const EditExpense = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/expense/edit/${id}`, config)
+        axios.put(`http://localhost:9091/api/revenue/edit/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const {
-                    expenseSum,
+                    revenueSum,
                     date,
                     seedAmountKg,
-                    description,
                     personId,
                     seedId,
-                    categoryId
                 } = response.data;
                 setFormData({
-                    expenseSum,
+                    revenueSum,
                     date,
                     seedAmountKg,
-                    description,
                     personId,
                     seedId,
-                    categoryId
                 });
             })
             .catch((error) => {
-                console.error("Error fetching Expense data: ", error);
+                console.error("Error fetching Revenue data: ", error);
             });
     }, [id, config]);
 
@@ -70,17 +63,6 @@ const EditExpense = () => {
             });
     }, []);
 
-    useEffect(() => {
-        // Fetch the list of seeds when the component mounts
-        axios.get('http://localhost:9091/api/category/categories', config)
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching categories: ', error);
-            });
-    }, []);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -90,13 +72,13 @@ const EditExpense = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.put(`http://localhost:9091/api/expense/edit/${id}`, formData, config);
+            const res = await axios.put(`http://localhost:9091/api/revenue/edit/${id}`, formData, config);
             setResponse(res.data);
 
-            navigate('/expense/all');
+            navigate('/revenue/all');
         } catch (error) {
             console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена на трошок. Обидете се повторно!');
+            setResponse('Неуспешна промена на приход. Обидете се повторно!');
         }
     };
 
@@ -106,7 +88,7 @@ const EditExpense = () => {
                 <input
                     type="number"
                     onChange={handleChange}
-                    name='expenseSum'
+                    name='revenueSum'
                     placeholder="Сума МКД"
                 />
                 <input
@@ -120,12 +102,6 @@ const EditExpense = () => {
                     onChange={handleChange}
                     name='seedAmountKg'
                     placeholder="Количина кг."
-                />
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name='description'
-                    placeholder="Опис"
                 />
                 <input
                     type="hidden"
@@ -143,19 +119,11 @@ const EditExpense = () => {
                         </option>
                     ))}
                 </select>
-                <select name="categoryId" onChange={handleChange} value={formData.categoryId}>
-                    <option value="" disabled> Избери категорија </option>
-                    {categories.map(category => (
-                        <option key={category.categoryId} value={category.categoryId}>
-                            {category.categoryName}
-                        </option>
-                    ))}
-                </select>
-                <button type='submit'> Ажурирај трошок </button>
+                <button type='submit'> Ажурирај приход </button>
             </form>
         </div>
     );
 }
 
-export default EditExpense;
+export default EditRevenue;
 

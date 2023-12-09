@@ -22,13 +22,14 @@ const EditYield = () => {
     const token = localStorage.getItem('jwt');
     const config = {
         headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         }
     };
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/plantation/edit/${id}`, config)
+        axios.put(`http://localhost:9091/api/yield/edit/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const { type, year, amountKg, seedId } = response.data;
@@ -81,9 +82,9 @@ const EditYield = () => {
                 />
                 <select name="seedId" onChange={handleChange} value={formData.seedId}>
                     <option value="" disabled> Одбери семе </option>
-                    {seeds.map(seedId => (
-                        <option key={seedId.seedId} value={seedId.seedId}>
-                            {seedId.seedName}
+                    {seeds.map(seed => (
+                        <option key={seed.seedId} value={seed.seedId}>
+                            {seed.seedName}
                         </option>
                     ))}
                 </select>

@@ -11,6 +11,7 @@ const ListYield = () => {
     const token = localStorage.getItem('jwt');
     const config = {
         headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         }
     };

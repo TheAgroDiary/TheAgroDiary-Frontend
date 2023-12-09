@@ -2,19 +2,16 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const AddExpense = () => {
+const AddRevenue = () => {
     const [formData, setFormData] = useState({
-        expenseSum: '',
+        revenueSum: '',
         date: '',
         seedAmountKg: '',
-        description: '',
         personId: '',
         seedId: '',
-        categoryId: '',
     });
 
     const [seeds, setSeeds] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [response, setResponse] = useState(null);
 
     const navigate = useNavigate();
@@ -31,7 +28,7 @@ const AddExpense = () => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                'http://localhost:9091/api/expense/add',
+                'http://localhost:9091/api/revenue/add',
                 formData,
                 config
             );
@@ -39,10 +36,10 @@ const AddExpense = () => {
             console.log('Response:', data);
             // Handle success
             setResponse(res.data);
-            navigate('/expense/all')
+            navigate('/revenue/all')
         } catch (error) {
             console.error('Грешка при додавање: ', error);
-            setResponse('Неуспешно додавање на трошок. Обидете се повторно!')
+            setResponse('Неуспешно додавање на приход. Обидете се повторно!')
         }
     };
 
@@ -54,17 +51,6 @@ const AddExpense = () => {
             })
             .catch(error => {
                 console.error('Error fetching seeds: ', error);
-            });
-    }, []);
-
-    useEffect(() => {
-        // Fetch the list of categories when the component mounts
-        axios.get('http://localhost:9091/api/category/categories', config)
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching categories: ', error);
             });
     }, []);
 
@@ -82,7 +68,7 @@ const AddExpense = () => {
                 <input
                     type="number"
                     onChange={handleChange}
-                    name='expenseSum'
+                    name='revenueSum'
                     placeholder="Сума МКД"
                 />
                 <input
@@ -96,12 +82,6 @@ const AddExpense = () => {
                     onChange={handleChange}
                     name='seedAmountKg'
                     placeholder="Количина кг."
-                />
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name='description'
-                    placeholder="Опис"
                 />
                 <input
                     type="hidden"
@@ -119,18 +99,10 @@ const AddExpense = () => {
                         </option>
                     ))}
                 </select>
-                <select name="categoryId" onChange={handleChange} value={formData.categoryId}>
-                    <option value="" disabled> Избери категорија </option>
-                    {categories.map(category => (
-                        <option key={category.categoryId} value={category.categoryId}>
-                            {category.categoryName}
-                        </option>
-                    ))}
-                </select>
-                <button type='submit'> Додади трошок </button>
+                <button type='submit'> Додади приход </button>
             </form>
         </div>
     );
 }
 
-export default AddExpense;
+export default AddRevenue;

@@ -16,11 +16,19 @@ import AddYield from "./Components/Yield/AddYield";
 import ListYield from "./Components/Yield/ListYield";
 import EditYield from "./Components/Yield/EditYield";
 import ListExpense from "./Components/Expense/ListExpense";
+import AddCategory from "./Components/Category/AddCategory";
+import EditCategory from "./Components/Category/EditCategory";
+import AddExpense from "./Components/Expense/AddExpense";
+import EditExpense from "./Components/Expense/EditExpense";
+import ListRevenue from "./Components/Revenue/ListRevenue";
+import AddRevenue from "./Components/Revenue/AddRevenue";
+import EditRevenue from "./Components/Revenue/EditRevenue";
 
 function App() {
   return (
       <Router>
           <Header/>
+          <body className="d-flex flex-column min-vh-100">
           <div>
               <Routes>
                   <Route path="/" element={<Home/>}/>
@@ -29,6 +37,8 @@ function App() {
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/seed" element={<AddSeed/>}/>
                   <Route path="/editSeed/:id" element={<EditSeed/>}/>
+                  <Route path="/category" element={<AddCategory/>}/>
+                  <Route path="/editCategory/:id" element={<EditCategory/>}/>
                   <Route path="/plantation" element={<AddPlantation/>}/>
                   <Route path="/plantation/all" element={<ListPlantation/>}/>
                   <Route path="/editPlantation/:id" element={<EditPlantation/>}/>
@@ -37,8 +47,15 @@ function App() {
                   <Route path="/yield/all" element={<ListYield/>}/>
                   <Route path="/editYield/:id" element={<EditYield/>}/>
                   <Route path="/expense/all" element={<ListExpense/>}/>
+                  <Route path="/expense/add" element={<AddExpense/>}/>
+                  <Route path="/editExpense/:id" element={<EditExpense/>}/>
+                  <Route path="/revenue/all" element={<ListRevenue/>}/>
+                  <Route path="/revenue/add" element={<AddRevenue/>}/>
+                  <Route path="/editRevenue/:id" element={<EditRevenue/>}/>
               </Routes>
           </div>
+          </body>
+
           <Footer/>
       </Router>
     // <div className="App">

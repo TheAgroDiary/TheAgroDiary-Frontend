@@ -19,20 +19,10 @@ const AddYield = () => {
     const token = localStorage.getItem('jwt')
     const config = {
         headers: {
+            'Content-Type': 'application/json',
             'Authorization' : `Bearer ${token}`,
         }
     }
-
-    useEffect(() => {
-        // const userInfo = getUserInfoFromToken(token);
-        const userInfo = 14
-        if (userInfo) {
-            setFormData((prevFormData) => ({
-                ...prevFormData,
-                personId: userInfo,
-            }));
-        }
-    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,12 +30,7 @@ const AddYield = () => {
             const res = await axios.post(
                 'http://localhost:9091/api/yield/add',
                 formData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                }
+                config
             );
             const data = res.data;
             console.log('Response:', data);
@@ -108,9 +93,9 @@ const AddYield = () => {
                 />
                 <select name="seedId" onChange={handleChange} value={formData.seedId}>
                     <option value="" disabled>Select Seed</option>
-                    {seeds.map(seedId => (
-                        <option key={seedId.seedId} value={seedId.seedId}>
-                            {seedId.seedName}
+                    {seeds.map(seed => (
+                        <option key={seed.seedId} value={seed.seedId}>
+                            {seed.seedName}
                         </option>
                     ))}
                 </select>

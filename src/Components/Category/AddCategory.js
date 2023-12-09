@@ -4,9 +4,9 @@ import axios from "axios";
 
 
 
-const AddSeed = () => {
+const AddCategory = () => {
     const [formData, setFormData] = useState({
-        seedName: ''
+        categoryName: ''
     });
 
     const [response, setResponse] = useState(null);
@@ -30,13 +30,13 @@ const AddSeed = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('http://localhost:9091/api/seed/add', formData, config);
+            const res = await axios.post('http://localhost:9091/api/category/add', formData, config);
             setResponse(res.data);
-            navigate('/home')
+            navigate('/categories')
         }
         catch (error) {
             console.error('Грешка при додавање: ', error);
-            setResponse('Неуспешно додавање на семе. Обидете се повторно!')
+            setResponse('Неуспешно додавање на категорија. Обидете се повторно!')
         }
     };
 
@@ -46,13 +46,13 @@ const AddSeed = () => {
                 <input
                     type="text"
                     onChange={handleChange}
-                    name='seedName'
-                    placeholder="Seed Name"
+                    name='categoryName'
+                    placeholder="Име на категорија"
                 />
-                <button type='submit'>Add Seed</button>
+                <button type='submit'> Додади категорија </button>
             </form>
         </div>
     );
 }
 
-export default AddSeed;
+export default AddCategory;
