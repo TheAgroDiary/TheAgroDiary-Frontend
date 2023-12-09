@@ -1,6 +1,11 @@
 const Home = () => {
     return (
-        <div> <h1> Say my name </h1></div>
+        <body>
+        <div>
+            <h1> Say my name </h1>
+        </div>
+        </body>
+
     )
 }
 

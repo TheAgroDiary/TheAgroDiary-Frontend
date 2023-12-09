@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const EditSeed = () => {
+const EditCategory = () => {
 
     const { id } = useParams();
 
     const [formData, setFormData] = useState({
-        seedName: '',
+        categoryName: '',
     });
 
     const [response, setResponse] = useState(null);
@@ -24,13 +24,14 @@ const EditSeed = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/seed/edit/${id}`, config)
+        axios.put(`http://localhost:9091/api/category/edit/${id}`, config)
             .then((response) => {
-                const { seedName } = response.data;
-                setFormData({ seedName });
+                console.log('I am in .then')
+                const { categoryName } = response.data;
+                setFormData({ categoryName });
             })
             .catch((error) => {
-                console.error("Error fetching Seed data: ", error);
+                console.error("Error fetching Category data: ", error);
             });
     }, [id, config]);
 
@@ -43,13 +44,13 @@ const EditSeed = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.put(`http://localhost:9091/api/seed/edit/${id}`, formData, config);
+            const res = await axios.put(`http://localhost:9091/api/category/edit/${id}`, formData, config);
             setResponse(res.data);
 
-            navigate('/home');
+            navigate('/categories');
         } catch (error) {
             console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена. Обидете се повторно!');
+            setResponse('Неуспешна промена на категорија. Обидете се повторно!');
         }
     };
 
@@ -59,15 +60,15 @@ const EditSeed = () => {
                 <input
                     type="text"
                     onChange={handleChange}
-                    name='seedName'
-                    value={formData.seedName}
-                    placeholder={formData.seedName}
+                    name='categoryName'
+                    value={formData.categoryName}
+                    placeholder={formData.categoryName}
                 />
-                <button type='submit'>Edit Seed</button>
+                <button type='submit'> Ажурирај категорија </button>
             </form>
         </div>
     );
 }
 
-export default EditSeed;
+export default EditCategory;
 

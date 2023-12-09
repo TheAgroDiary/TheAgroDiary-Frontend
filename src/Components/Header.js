@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-// import getUserInfoFromToken from "./JWTUtils";
 import { useAuth } from "../AuthContext";
 
 const Header = () => {
@@ -22,9 +21,21 @@ const Header = () => {
 
     if (localStorage.getItem('jwt')) {
         authenticate = (
-            <ul>
+            <ul className="navbar-nav col-md-8">
+                <Link to="/plantation/all">
+                    <li className="nav-item d-inline-flex col-2 mx-1"> Сеидби </li>
+                </Link>
+                <Link to="/yield/all">
+                    <li className="nav-item d-inline-flex col-2 mx-1"> Приноси </li>
+                </Link>
+                <Link to="/expense/all">
+                    <li className="nav-item d-inline-flex col-2 mx-1"> Трошоци </li>
+                </Link>
+                <Link to="/revenue/all">
+                    <li className="nav-item d-inline-flex col-2 mx-1"> Приходи </li>
+                </Link>
                 <h3> {user} </h3>
-                <button className="btn btn-primary" onClick={handleLogout}>
+                <button className="nav-item d-inline-flex col-md-2 btn btn-primary" onClick={handleLogout}>
                     Одјави се
                 </button>
             </ul>
