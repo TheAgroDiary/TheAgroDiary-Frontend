@@ -31,30 +31,32 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2> Најава </h2>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={formData.username}
-                        onChange={handleInputChange}
-                    />
+        <div className="d-flex justify-content-center align-items-center vh-100-50">
+            <form className="m-3 w-25" onSubmit={handleLogin}>
+                <div className="form-group">
+                    <label> Корисничко име </label>
+                    <input type="text"
+                           name="username"
+                           placeholder="Username"
+                           value={formData.username}
+                           onChange={handleInputChange}
+                           className="form-control"
+                           placeholder="Корисничко име"/>
                 </div>
-                <div>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                    />
+                <div className="form-group">
+                    <label> Лозинка </label>
+                    <input type="password"
+                           name="password"
+                           placeholder="Password"
+                           value={formData.password}
+                           onChange={handleInputChange}
+                           className="form-control"
+                           placeholder="Лозинка"/>
                 </div>
-                <button type="submit"> Најави се </button>
+                <button type="submit" className="btn btn-primary my-3"> Најави се </button>
             </form>
         </div>
+
     );
 };
 
