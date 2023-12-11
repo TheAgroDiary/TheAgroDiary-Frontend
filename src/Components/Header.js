@@ -21,52 +21,54 @@ const Header = () => {
 
     if (localStorage.getItem('jwt')) {
         authenticate = (
-            <nav className="navbar navbar-expand-lg navbar-light">
-                <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="/plantation/all"> Сеидби </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/yield/all"> Приноси </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/expense/all"> Трошоци </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/revenue/all"> Приходи </a>
-                        </li>
-                    </ul>
-                    <span className="navbar-text float-end">
-                        <button className="nav-item btn btn-primary" onClick={handleLogout}>
-                            Одјави се
-                     </button>
-                    </span>
-                </div>
-            </nav>
+            <div className="collapse navbar-collapse mx-3">
+                <ul className="navbar-nav mr-auto nav-list fw-medium">
+                    <li className="nav-item">
+                        <Link to="/plantation/all" className="menu-bar-items nav-link rounded-2"> Сеидби </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/expense/all" className="menu-bar-items nav-link rounded-2"> Трошоци </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/revenue/all" className="menu-bar-items nav-link rounded-2"> Приходи </Link>
+                    </li>
+                </ul>
+                <span className="navbar-text">
+                    <button className="nav-item btn btn-primary" onClick={handleLogout}>
+                        Одјави се
+                 </button>
+                </span>
+            </div>
         )
     }
     else {
         authenticate = (
-            <ul className="navbar-nav bd-navbar-nav flex-row">
-                <li className="nav-item">
-                    <Link to="/login" className="nav-link">
-                        <button className="btn btn-success"> Најави се </button>
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                        <button className="btn btn-primary"> Регистрирај се </button>
-                    </Link>
-                </li>
-            </ul>
+            <div className="collapse navbar-collapse mx-3">
+                <ul className="navbar-nav bd-navbar-nav flex-row">
+                    <li className="nav-item">
+                        <Link to="/login" className="nav-link">
+                            <button className="btn btn-success"> Најави се </button>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/register" className="nav-link">
+                            <button className="btn btn-primary"> Регистрирај се </button>
+                        </Link>
+                    </li>
+                </ul>
+            </div>
         )
     }
 
     return (
-        <header className="navbar navbar-expand bg-success flex-column flex-md-row bd-navbar px-2">
-            <a className="navbar-brand" href="/home"> Почетна </a>
-            <div className="navbar-nav-scroll justify-content-end float-end">
+        <header className="navbar navbar-expand d-inline-flex justify-content-end bg-secondary-subtle flex-column flex-md-row bd-navbar px-2">
+            <div className="navbar-nav-scroll" id="home">
+                <a className="navbar-brand menu-bar-items rounded-2 p-2" href="/home"> Почетна </a>
+            </div>
+            <div className="navbar-nav-scroll">
                 {authenticate}
             </div>
         </header>

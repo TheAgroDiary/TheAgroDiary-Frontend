@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.menu-bar-items:hover {
+  background-color: #4EAE3A;
+}
+
+.nav-list li :hover {
+  color: whitesmoke;
+}
+
+#home :hover {
+  color: whitesmoke;
+}
