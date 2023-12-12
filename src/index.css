@@ -12,14 +12,32 @@ code {
     monospace;
 }
 
-.menu-bar-items:hover {
+.navigation-bar {
   background-color: #4EAE3A;
 }
 
-.nav-list li :hover {
+.edit-buttons {
+  background-color: inherit;
+  border-style: inset;
+  border-color: forestgreen;
+}
+
+.edit-buttons:hover {
+  background-color: #4EAE3A;
+}
+
+.menu-bar-items:hover {
+  background-color: forestgreen;
+}
+
+.my-list li :hover {
   color: whitesmoke;
 }
 
 #home :hover {
   color: whitesmoke;
+}
+
+.dropdown-nav-list li :hover {
+  background-color: #4EAE3A;
 }

@@ -19,44 +19,55 @@ const Header = () => {
         navigate('/login')
     };
 
+    let home = (
+            <a id="home" className="text-light text-opacity-75 menu-bar-items navbar-brand rounded-2 p-2" href="/home"> Почетна </a>
+        )
+
     if (localStorage.getItem('jwt')) {
         authenticate = (
-            <div className="collapse navbar-collapse mx-3">
-                <ul className="navbar-nav mr-auto nav-list fw-medium">
-                    <li className="nav-item">
+            <div class="container-fluid">
+                {home}
+                <ul class="my-list navbar-nav d-flex flex-row me-1">
+                    <li class="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/plantation/all" className="menu-bar-items nav-link rounded-2"> Сеидби </Link>
                     </li>
-                    <li className="nav-item">
+                    <li class="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
                     </li>
-                    <li className="nav-item">
+                    <li class="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/expense/all" className="menu-bar-items nav-link rounded-2"> Трошоци </Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/revenue/all" className="menu-bar-items nav-link rounded-2"> Приходи </Link>
+                    <li class="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i className="fas fa-user mx-1"></i> Профил
+                        </a>
+                        <ul className="dropdown-menu dropdown-menu-end dropdown-nav-list" aria-labelledby="navbarDropdown">
+                            <li>
+                                <button className="dropdown-item fw-medium" href="#"> Мој профил </button>
+                            </li>
+                            <li>
+                                <button className="dropdown-item fw-medium" onClick={handleLogout}> Одјави се </button>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-                <span className="navbar-text">
-                    <button className="nav-item btn btn-primary" onClick={handleLogout}>
-                        Одјави се
-                 </button>
-                </span>
             </div>
         )
     }
     else {
         authenticate = (
-            <div className="collapse navbar-collapse mx-3">
-                <ul className="navbar-nav bd-navbar-nav flex-row">
-                    <li className="nav-item">
-                        <Link to="/login" className="nav-link">
-                            <button className="btn btn-success"> Најави се </button>
-                        </Link>
+            <div className="container-fluid">
+                {home}
+                <ul className="navbar-nav d-flex flex-row me-1">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/login" className="menu-bar-items nav-link rounded-2 fw-medium"> Најави се </Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/register" className="nav-link">
-                            <button className="btn btn-primary"> Регистрирај се </button>
-                        </Link>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/register" className="menu-bar-items nav-link rounded-2 fw-medium"> Регистрирај се </Link>
                     </li>
                 </ul>
             </div>
@@ -64,14 +75,9 @@ const Header = () => {
     }
 
     return (
-        <header className="navbar navbar-expand d-inline-flex justify-content-end bg-secondary-subtle flex-column flex-md-row bd-navbar px-2">
-            <div className="navbar-nav-scroll" id="home">
-                <a className="navbar-brand menu-bar-items rounded-2 p-2" href="/home"> Почетна </a>
-            </div>
-            <div className="navbar-nav-scroll">
-                {authenticate}
-            </div>
-        </header>
+        <nav className="navbar navbar-expand-lg navbar-dark navigation-bar">
+            {authenticate}
+        </nav>
     )
 }
 

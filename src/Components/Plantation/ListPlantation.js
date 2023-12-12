@@ -38,32 +38,34 @@ const ListPlantation = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
-        <div>
-            <Link to="/yield/add">
-                <button className="btn btn-primary">
-                    Додади нова сеидба
-                </button>
-            </Link>
-            <table>
-                <thead>
+        <div className="container-fluid">
+            <div className="justify-content-end d-flex my-3">
+                <Link to="/yield/add">
+                    <button className="btn btn-primary">
+                        Додади нова сеидба
+                    </button>
+                </Link>
+            </div>
+            <table className="table table-striped table-hover">
+                <thead className="bg-secondary-subtle">
                 <tr>
-                    <th> ИД </th>
-                    <th> Семе </th>
-                    <th> Вид семе </th>
-                    <th> Количина во кг. </th>
-                    <th>  </th>
-                    {/* Add more table headers as needed */}
+                    <th className="bg-secondary-subtle"> Семе </th>
+                    <th className="bg-secondary-subtle"> Вид семе </th>
+                    <th className="bg-secondary-subtle"> Количина во кг. </th>
+                    <th className="bg-secondary-subtle">  </th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentPlantations.map(plantation => (
                     <tr key={plantation.plantationId}>
-                        <td>{plantation.plantationId}</td>
                         <td>{plantation.seed.seedName}</td>
                         <td>{plantation.type}</td>
                         <td>{plantation.amountKg}</td>
-                        <td> <Link to={`/editYield/${plantation.plantationId}`}> <button> Измени </button> </Link> </td>
-                        {/* Add more table data as needed */}
+                        <td>
+                            <Link to={`/editYield/${plantation.plantationId}`}>
+                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                            </Link>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

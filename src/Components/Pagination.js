@@ -6,14 +6,26 @@ const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
     }
 
     return (
-        <ul>
+        <ul className="pagination justify-content-center">
+            <li className="page-item">
+                <a className="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span className="sr-only"></span>
+                </a>
+            </li>
             {pageNumbers.map(number => (
-                <li key={number}>
-                    <a href="#" onClick={() => paginate(number)}>
+                <li className="page-item" key={number}>
+                    <a className="page-link" href="#" onClick={() => paginate(number)}>
                         {number}
                     </a>
                 </li>
             ))}
+            <li>
+                <a className="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span className="sr-only"></span>
+                </a>
+            </li>
         </ul>
     );
 };
