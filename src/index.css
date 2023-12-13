@@ -16,16 +16,6 @@ code {
   background-color: #4EAE3A;
 }
 
-.edit-buttons {
-  background-color: inherit;
-  border-style: inset;
-  border-color: forestgreen;
-}
-
-.edit-buttons:hover {
-  background-color: #4EAE3A;
-}
-
 .menu-bar-items:hover {
   background-color: forestgreen;
 }
@@ -40,4 +30,28 @@ code {
 
 .dropdown-nav-list li :hover {
   background-color: #4EAE3A;
+}
+
+.add-new {
+  border-style: outset;
+  border-color: darkslateblue;
+
+}
+
+.add-new:hover {
+  /*color: royalblue;*/
+  /*font-weight: bold;*/
+  background-image: linear-gradient(whitesmoke, cornflowerblue);
+}
+
+.edit-buttons {
+  background-color: inherit;
+  border-style: inset;
+  border-color: forestgreen;
+}
+
+.edit-buttons:hover {
+  color: whitesmoke;
+  background-color: #4EAE3A;
+  background-image: linear-gradient(to bottom right, #4EAE3A, darkgreen);
 }

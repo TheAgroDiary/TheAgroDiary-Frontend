@@ -38,34 +38,36 @@ const ListRevenue = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
-        <div>
-            <Link to="/revenue/add">
-                <button className="btn btn-primary">
-                    Додади нов приход од сеидба
-                </button>
-            </Link>
-            <table>
-                <thead>
+        <div className="container-fluid">
+            <div className="justify-content-end d-flex my-3">
+                <Link to="/revenue/add">
+                    <button className="add-new p-2 rounded-2">
+                        Додади нов приход од сеидба
+                    </button>
+                </Link>
+            </div>
+            <table className="table table-striped table-hover">
+                <thead className="bg-secondary-subtle">
                 <tr>
-                    <th> ИД </th>
-                    <th> Семе </th>
-                    <th> Количина на семе </th>
-                    <th> Датум </th>
-                    <th> Сума во денари </th>
-                    <th> </th>
-                    {/* Add more table headers as needed */}
+                    <th className="bg-secondary-subtle"> Сума во денари </th>
+                    <th className="bg-secondary-subtle"> Семе </th>
+                    <th className="bg-secondary-subtle"> Количина во кг. </th>
+                    <th className="bg-secondary-subtle"> Датум </th>
+                    <th className="bg-secondary-subtle"> </th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentRevenues.map(revenue => (
                     <tr key={revenue.revenueId}>
-                        <td>{revenue.revenueId}</td>
+                        <td>{revenue.revenueSum}</td>
                         <td>{revenue.seed.seedName}</td>
                         <td>{revenue.seedAmountKg}</td>
                         <td>{revenue.date}</td>
-                        <td>{revenue.revenueSum}</td>
-                        <td> <Link to={`/editRevenue/${revenue.revenueId}`}> <button> Измени </button> </Link> </td>
-                        {/* Add more table data as needed */}
+                        <td>
+                            <Link to={`/editRevenue/${revenue.revenueId}`}>
+                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                            </Link>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

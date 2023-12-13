@@ -25,20 +25,20 @@ const Header = () => {
 
     if (localStorage.getItem('jwt')) {
         authenticate = (
-            <div class="container-fluid">
+            <div className="container-fluid">
                 {home}
-                <ul class="my-list navbar-nav d-flex flex-row me-1">
-                    <li class="nav-item me-3 me-lg-0 fw-medium">
+                <ul className="my-list navbar-nav d-flex flex-row me-1">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/plantation/all" className="menu-bar-items nav-link rounded-2"> Сеидби </Link>
                     </li>
-                    <li class="nav-item me-3 me-lg-0 fw-medium">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
                     </li>
-                    <li class="nav-item me-3 me-lg-0 fw-medium">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
                         <Link to="/expense/all" className="menu-bar-items nav-link rounded-2"> Трошоци </Link>
                     </li>
-                    <li class="nav-item me-3 me-lg-0 fw-medium">
-                        <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/revenue/all" className="menu-bar-items nav-link rounded-2"> Приходи </Link>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button"

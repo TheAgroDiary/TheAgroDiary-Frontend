@@ -38,38 +38,40 @@ const ListExpense = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
-        <div>
-            <Link to="/yield/add">
-                <button className="btn btn-primary">
-                    Додади нов трошок од сеидба
-                </button>
-            </Link>
-            <table>
-                <thead>
+        <div className="container-fluid">
+            <div className="justify-content-end d-flex my-3">
+                <Link to="/expense/add">
+                    <button className="add-new p-2 rounded-2">
+                        Додади нов трошок од сеидба
+                    </button>
+                </Link>
+            </div>
+            <table className="table table-striped table-hover">
+                <thead className="bg-secondary-subtle">
                 <tr>
-                    <th> ИД </th>
-                    <th> Семе </th>
-                    <th> Количина на семе </th>
-                    <th> Категорија </th>
-                    <th> Опис </th>
-                    <th> Датум </th>
-                    <th> Сума во денари </th>
-                    <th> </th>
-                    {/* Add more table headers as needed */}
+                    <th className="bg-secondary-subtle"> Категорија </th>
+                    <th className="bg-secondary-subtle"> Сума во денари </th>
+                    <th className="bg-secondary-subtle"> Семе </th>
+                    <th className="bg-secondary-subtle"> Количина на семе </th>
+                    <th className="bg-secondary-subtle"> Опис </th>
+                    <th className="bg-secondary-subtle"> Датум </th>
+                    <th className="bg-secondary-subtle"> </th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentExpenses.map(expense => (
                     <tr key={expense.expenseId}>
-                        <td>{expense.expenseId}</td>
+                        <td>{expense.category.categoryName}</td>
+                        <td>{expense.expenseSum}</td>
                         <td>{expense.seed.seedName}</td>
                         <td>{expense.seedAmountKg}</td>
-                        <td>{expense.category.categoryName}</td>
                         <td>{expense.description}</td>
                         <td>{expense.date}</td>
-                        <td>{expense.expenseSum}</td>
-                        <td> <Link to={`/editExpense/${expense.expenseId}`}> <button> Измени </button> </Link> </td>
-                        {/* Add more table data as needed */}
+                        <td>
+                            <Link to={`/editExpense/${expense.expenseId}`}>
+                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                            </Link>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

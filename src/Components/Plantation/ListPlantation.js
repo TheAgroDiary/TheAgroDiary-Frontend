@@ -40,8 +40,8 @@ const ListPlantation = () => {
     return (
         <div className="container-fluid">
             <div className="justify-content-end d-flex my-3">
-                <Link to="/yield/add">
-                    <button className="btn btn-primary">
+                <Link to="/plantation/add">
+                    <button className="add-new p-2 rounded-2">
                         Додади нова сеидба
                     </button>
                 </Link>
@@ -49,6 +49,7 @@ const ListPlantation = () => {
             <table className="table table-striped table-hover">
                 <thead className="bg-secondary-subtle">
                 <tr>
+                    <th className="bg-secondary-subtle"> Година </th>
                     <th className="bg-secondary-subtle"> Семе </th>
                     <th className="bg-secondary-subtle"> Вид семе </th>
                     <th className="bg-secondary-subtle"> Количина во кг. </th>
@@ -58,11 +59,12 @@ const ListPlantation = () => {
                 <tbody>
                 {currentPlantations.map(plantation => (
                     <tr key={plantation.plantationId}>
+                        <td>{plantation.year}</td>
                         <td>{plantation.seed.seedName}</td>
                         <td>{plantation.type}</td>
                         <td>{plantation.amountKg}</td>
                         <td>
-                            <Link to={`/editYield/${plantation.plantationId}`}>
+                            <Link to={`/editPlantation/${plantation.plantationId}`}>
                                 <button className="edit-buttons p-2 rounded-2"> Измени </button>
                             </Link>
                         </td>

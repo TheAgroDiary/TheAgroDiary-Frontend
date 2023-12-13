@@ -41,7 +41,7 @@ const EditPlantation = () => {
             .catch((error) => {
                 console.error("Error fetching Seed data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     useEffect(() => {
         // Fetch the list of seeds when the component mounts
