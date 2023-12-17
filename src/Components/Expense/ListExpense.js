@@ -23,7 +23,10 @@ const ListExpense = () => {
     const fetchExpenses = () => {
         axios.get('http://localhost:9091/api/expense/my', config)
             .then(response => {
-                setExpenses(response.data);
+                const sortedExpenses = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt);
+                })
+                setExpenses(sortedExpenses);
             })
             .catch(error => {
                 console.error('Error fetching expenses: ', error);
@@ -42,7 +45,7 @@ const ListExpense = () => {
             <div className="justify-content-end d-flex my-3">
                 <Link to="/expense/add">
                     <button className="add-new p-2 rounded-2">
-                        Додади нов трошок од сеидба
+                        Додади трошок
                     </button>
                 </Link>
             </div>

@@ -55,3 +55,8 @@ code {
   background-color: #4EAE3A;
   background-image: linear-gradient(to bottom right, #4EAE3A, darkgreen);
 }
+
+.form-body {
+  border-bottom-style: ridge;
+  border-color: forestgreen;
+}

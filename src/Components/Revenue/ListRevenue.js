@@ -23,7 +23,10 @@ const ListRevenue = () => {
     const fetchRevenues = () => {
         axios.get('http://localhost:9091/api/revenue/my', config)
             .then(response => {
-                setRevenues(response.data);
+                const sortedRevenues = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt);
+                })
+                setRevenues(sortedRevenues);
             })
             .catch(error => {
                 console.error('Error fetching revenues: ', error);
@@ -42,7 +45,7 @@ const ListRevenue = () => {
             <div className="justify-content-end d-flex my-3">
                 <Link to="/revenue/add">
                     <button className="add-new p-2 rounded-2">
-                        Додади нов приход од сеидба
+                        Додади приход
                     </button>
                 </Link>
             </div>

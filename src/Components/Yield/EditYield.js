@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 const EditYield = () => {
@@ -29,7 +29,7 @@ const EditYield = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/yield/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/yield/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const { type, year, amountKg, seedId } = response.data;
@@ -38,7 +38,7 @@ const EditYield = () => {
             .catch((error) => {
                 console.error("Error fetching Seed data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     useEffect(() => {
         // Fetch the list of seeds when the component mounts
@@ -65,22 +65,16 @@ const EditYield = () => {
 
             navigate('/yield/all');
         } catch (error) {
-            console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена на принос. Обидете се повторно!');
+            console.error('Грешка при ажурирање: ', error);
+            setResponse('Неуспешно ажурирање. Обидете се повторно!');
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name='type'
-                    value={formData.type}
-                    placeholder={formData.type}
-                />
-                <select name="seedId" onChange={handleChange} value={formData.seedId}>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
+                <select name="seedId" className="form-control my-2" required onChange={handleChange} value={formData.seedId}>
                     <option value="" disabled> Одбери семе </option>
                     {seeds.map(seed => (
                         <option key={seed.seedId} value={seed.seedId}>
@@ -88,21 +82,37 @@ const EditYield = () => {
                         </option>
                     ))}
                 </select>
+                <label> Сорта </label>
+                <input
+                    type="text"
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='type'
+                    value={formData.type}
+                    placeholder={formData.type}
+                />
+                <label> Година </label>
                 <input
                     type="number"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='year'
                     value={formData.year}
                     placeholder={formData.year}
                 />
+                <label> Количина кг. </label>
                 <input
-                    type="number"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='amountKg'
                     value={formData.amountKg}
                     placeholder={formData.amountKg}
                 />
-                <button type='submit'> Ажурирај принос </button>
+                <button type='submit' className="btn btn-success"> Ажурирај принос </button>
+                <Link to="/yield/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

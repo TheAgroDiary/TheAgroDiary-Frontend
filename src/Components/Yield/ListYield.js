@@ -23,7 +23,10 @@ const ListYield = () => {
     const fetchYields = () => {
         axios.get('http://localhost:9091/api/yield/my', config)
             .then(response => {
-                setYields(response.data);
+                const sortedYields = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt);
+                })
+                setYields(sortedYields);
             })
             .catch(error => {
                 console.error('Error fetching yields: ', error);
@@ -42,7 +45,7 @@ const ListYield = () => {
             <div className="justify-content-end d-flex my-3">
                 <Link to="/yield/add">
                     <button className="add-new p-2 rounded-2">
-                        Додади нов принос од сеидба
+                        Додади принос
                     </button>
                 </Link>
             </div>

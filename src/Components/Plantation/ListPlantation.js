@@ -23,7 +23,11 @@ const ListPlantation = () => {
     const fetchPlantations = () => {
         axios.get('http://localhost:9091/api/plantation/my', config)
             .then(response => {
-                setPlantations(response.data);
+                // Sort the plantations by updatedAt or createdAt in descending order
+                const sortedPlantations = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt); // Replace 'updatedAt' with the appropriate field
+                });
+                setPlantations(sortedPlantations);
             })
             .catch(error => {
                 console.error('Error fetching plantations: ', error);
@@ -42,7 +46,7 @@ const ListPlantation = () => {
             <div className="justify-content-end d-flex my-3">
                 <Link to="/plantation/add">
                     <button className="add-new p-2 rounded-2">
-                        Додади нова сеидба
+                        Додади сеидба
                     </button>
                 </Link>
             </div>

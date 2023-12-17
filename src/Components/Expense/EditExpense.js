@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 const EditExpense = () => {
@@ -32,7 +32,7 @@ const EditExpense = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/expense/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/expense/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const {
@@ -57,7 +57,7 @@ const EditExpense = () => {
             .catch((error) => {
                 console.error("Error fetching Expense data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     useEffect(() => {
         // Fetch the list of seeds when the component mounts
@@ -95,63 +95,71 @@ const EditExpense = () => {
 
             navigate('/expense/all');
         } catch (error) {
-            console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена на трошок. Обидете се повторно!');
+            console.error('Грешка при ажурирање: ', error);
+            setResponse('Неуспешно ажурирање. Обидете се повторно!');
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='expenseSum'
-                    placeholder="Сума МКД"
-                />
-                <input
-                    type="date"
-                    onChange={handleChange}
-                    name='date'
-                    placeholder="Датум"
-                />
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='seedAmountKg'
-                    placeholder="Количина кг."
-                />
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name='description'
-                    placeholder="Опис"
-                />
-                <input
-                    type="hidden"
-                    onChange={handleChange}
-                    name='personId'
-                    placeholder="Person"
-                    value={formData.personId} // Set value from state
-                    readOnly // Prevent user from editing the username field
-                />
-                <select name="seedId" onChange={handleChange} value={formData.seedId}>
-                    <option value="" disabled>Select Seed</option>
-                    {seeds.map(seed => (
-                        <option key={seed.seedId} value={seed.seedId}>
-                            {seed.seedName}
-                        </option>
-                    ))}
-                </select>
-                <select name="categoryId" onChange={handleChange} value={formData.categoryId}>
-                    <option value="" disabled> Избери категорија </option>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Категорија </label>
+                <select name="categoryId" className="form-control my-2" required onChange={handleChange} value={formData.categoryId}>
+                    <option value="" disabled> Одбери категорија </option>
                     {categories.map(category => (
                         <option key={category.categoryId} value={category.categoryId}>
                             {category.categoryName}
                         </option>
                     ))}
                 </select>
-                <button type='submit'> Ажурирај трошок </button>
+                <label> Семе </label>
+                <select name="seedId" className="form-control my-2" required onChange={handleChange} value={formData.seedId}>
+                    <option value="" disabled> Одбери семе </option>
+                    {seeds.map(seed => (
+                        <option key={seed.seedId} value={seed.seedId}>
+                            {seed.seedName}
+                        </option>
+                    ))}
+                </select>
+                <label> Количина кг. </label>
+                <input
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='seedAmountKg'
+                    value={formData.seedAmountKg}
+                    placeholder={formData.seedAmountKg}
+                />
+                <label> Износ мкд </label>
+                <input
+                    type="number"
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='expenseSum'
+                    value={formData.expenseSum}
+                    placeholder={formData.expenseSum}
+                />
+                <label> Опис </label>
+                <input
+                    type="text"
+                    className="form-control my-2"
+                    onChange={handleChange}
+                    name='description'
+                    value={formData.description}
+                    placeholder={formData.description}
+                />
+                <label> Датум </label>
+                <input
+                    type="date"
+                    className="form-control my-2"
+                    onChange={handleChange}
+                    name='date'
+                    value={formData.date}
+                    placeholder={formData.date}
+                />
+                <button type='submit' className="btn btn-success"> Ажурирај трошок </button>
+                <Link to="/expense/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

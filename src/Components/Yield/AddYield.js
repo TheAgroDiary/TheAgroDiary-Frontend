@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const AddYield = () => {
@@ -39,7 +39,7 @@ const AddYield = () => {
             navigate('/yield/all')
         } catch (error) {
             console.error('Грешка при додавање: ', error);
-            setResponse('Неуспешно додавање на принос. Обидете се повторно!')
+            setResponse('Неуспешно додавање. Обидете се повторно!')
         }
     };
 
@@ -63,43 +63,55 @@ const AddYield = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name='type'
-                    placeholder="Сорта семе"
-                />
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='year'
-                    placeholder="Година"
-                />
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='amountKg'
-                    placeholder="Количина во кг."
-                />
-                <input
-                    type="hidden"
-                    onChange={handleChange}
-                    name='personId'
-                    placeholder="Person"
-                    value={formData.personId} // Set value from state
-                    readOnly // Prevent user from editing the username field
-                />
-                <select name="seedId" onChange={handleChange} value={formData.seedId}>
-                    <option value="" disabled>Select Seed</option>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
+                <select name="seedId" className="form-control my-2" required onChange={handleChange} value={formData.seedId}>
+                    <option value="" disabled> Одбери семе </option>
                     {seeds.map(seed => (
                         <option key={seed.seedId} value={seed.seedId}>
                             {seed.seedName}
                         </option>
                     ))}
                 </select>
-                <button type='submit'> Додади принос </button>
+                <label> Сорта </label>
+                <input
+                    type="text"
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='type'
+                    placeholder="Сорта"
+                />
+                <label> Година </label>
+                <input
+                    type="number"
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='year'
+                    placeholder="Година"
+                />
+                <label> Количина кг. </label>
+                <input
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='amountKg'
+                    placeholder="Количина кг."
+                />
+                <input
+                    type="hidden"
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='personId'
+                    placeholder="Person"
+                    value={formData.personId} // Set value from state
+                    readOnly // Prevent user from editing the username field
+                />
+                <button type='submit' className="btn btn-success"> Додади принос </button>
+                <Link to="/yield/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

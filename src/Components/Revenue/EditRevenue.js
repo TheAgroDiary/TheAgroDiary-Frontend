@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 const EditRevenue = () => {
@@ -29,7 +29,7 @@ const EditRevenue = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/revenue/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/revenue/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const {
@@ -50,7 +50,7 @@ const EditRevenue = () => {
             .catch((error) => {
                 console.error("Error fetching Revenue data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     useEffect(() => {
         // Fetch the list of seeds when the component mounts
@@ -77,49 +77,52 @@ const EditRevenue = () => {
 
             navigate('/revenue/all');
         } catch (error) {
-            console.error('Грешка при измена: ', error);
-            setResponse('Неуспешна промена на приход. Обидете се повторно!');
+            console.error('Грешка при ажурирање: ', error);
+            setResponse('Неуспешно ажурирање. Обидете се повторно!');
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='revenueSum'
-                    placeholder="Сума МКД"
-                />
-                <input
-                    type="date"
-                    onChange={handleChange}
-                    name='date'
-                    placeholder="Датум"
-                />
-                <input
-                    type="number"
-                    onChange={handleChange}
-                    name='seedAmountKg'
-                    placeholder="Количина кг."
-                />
-                <input
-                    type="hidden"
-                    onChange={handleChange}
-                    name='personId'
-                    placeholder="Person"
-                    value={formData.personId} // Set value from state
-                    readOnly // Prevent user from editing the username field
-                />
-                <select name="seedId" onChange={handleChange} value={formData.seedId}>
-                    <option value="" disabled>Select Seed</option>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
+                <select name="seedId" className="form-control my-2" required onChange={handleChange} value={formData.seedId}>
+                    <option value="" disabled> Одбери семе </option>
                     {seeds.map(seed => (
                         <option key={seed.seedId} value={seed.seedId}>
                             {seed.seedName}
                         </option>
                     ))}
                 </select>
-                <button type='submit'> Ажурирај приход </button>
+                <label> Количина кг. </label>
+                <input
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='seedAmountKg'
+                    value={formData.seedAmountKg}
+                    placeholder={formData.seedAmountKg}
+                />
+                <label> Износ мкд </label>
+                <input
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='revenueSum'
+                    value={formData.revenueSum}
+                    placeholder={formData.revenueSum}
+                />
+                <label> Датум </label>
+                <input
+                    type="date"
+                    className="form-control my-2"
+                    onChange={handleChange}
+                    name='date'
+                    value={formData.date}
+                    placeholder={formData.date}
+                />
+                <button type='submit' className="btn btn-success"> Ажурирај приход </button>
+                <Link to="/revenue/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );
