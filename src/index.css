@@ -60,3 +60,8 @@ code {
   border-bottom-style: ridge;
   border-color: forestgreen;
 }
+
+.carousel-images {
+  width: 1000px;
+  height: 850px;
+}

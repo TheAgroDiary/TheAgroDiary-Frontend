@@ -27,6 +27,7 @@ import {AuthProvider} from "./AuthContext";
 import Logout from "./Components/Logout";
 import PrivateRoute from "./Components/PrivateRoute";
 import {Fragment} from "react";
+import PlantationStatistics from "./Components/Plantation/PlantationStatistics";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
                               {/*<PrivateRoute path="/plantation/all" element={<ListPlantation/>}/>*/}
                               <Route path="/editPlantation/:id" element={<EditPlantation/>}/>
                               <Route path="/deletePlantation/:id" element={<DeletePlantation/>}/>
+                              <Route path="/plantation/statistics" element={<PlantationStatistics/>}/>
                               <Route path="/yield/add" element={<PrivateRoute/>}>
                                   <Route path="/yield/add" element={<AddYield/>}/>
                               </Route>

@@ -43,14 +43,8 @@ const ListPlantation = () => {
 
     return (
         <div className="container-fluid">
-            <div className="justify-content-end d-flex my-3">
-                <Link to="/plantation/add">
-                    <button className="add-new p-2 rounded-2">
-                        Додади сеидба
-                    </button>
-                </Link>
-            </div>
-            <table className="table table-striped table-hover">
+            <h5> Мои сеидби </h5>
+            <table className="table table-striped table-hover mt-2">
                 <thead className="bg-secondary-subtle">
                 <tr>
                     <th className="bg-secondary-subtle"> Година </th>
@@ -81,6 +75,18 @@ const ListPlantation = () => {
                 totalItems={plantations.length}
                 paginate={paginate}
             />
+            <div className="justify-content-center d-flex my-3">
+                <Link to="/plantation/add">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Додади сеидба
+                    </button>
+                </Link>
+                <Link to="/plantation/statistics">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Прикажи статистики
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };
