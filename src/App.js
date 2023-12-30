@@ -27,7 +27,10 @@ import {AuthProvider} from "./AuthContext";
 import Logout from "./Components/Logout";
 import PrivateRoute from "./Components/PrivateRoute";
 import {Fragment} from "react";
-import PlantationStatistics from "./Components/Plantation/PlantationStatistics";
+import PlantationStatistics from "./Components/Statistics/PlantationStatistics";
+import YieldStatistics from "./Components/Statistics/YieldStatistics";
+import ExpenseStatistics from "./Components/Statistics/ExpenseStatistics";
+import RevenueStatistics from "./Components/Statistics/RevenueStatistics";
 
 
 function App() {
@@ -65,12 +68,15 @@ function App() {
                               <Route path="/editYield/:id" element={<PrivateRoute/>}>
                                   <Route path="/editYield/:id" element={<EditYield/>}/>
                               </Route>
+                              <Route path="/yield/statistics" element={<YieldStatistics/>}/>
                               <Route path="/expense/all" element={<ListExpense/>}/>
                               <Route path="/expense/add" element={<AddExpense/>}/>
                               <Route path="/editExpense/:id" element={<EditExpense/>}/>
+                              <Route path="/expense/statistics" element={<ExpenseStatistics/>}/>
                               <Route path="/revenue/all" element={<ListRevenue/>}/>
                               <Route path="/revenue/add" element={<AddRevenue/>}/>
                               <Route path="/editRevenue/:id" element={<EditRevenue/>}/>
+                              <Route path="/revenue/statistics" element={<RevenueStatistics/>}/>
                           </Routes>
                       </div>
                       <Footer/>

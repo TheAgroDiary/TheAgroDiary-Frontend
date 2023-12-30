@@ -42,13 +42,7 @@ const ListExpense = () => {
 
     return (
         <div className="container-fluid">
-            <div className="justify-content-end d-flex my-3">
-                <Link to="/expense/add">
-                    <button className="add-new p-2 rounded-2">
-                        Додади трошок
-                    </button>
-                </Link>
-            </div>
+            <h5></h5>
             <table className="table table-striped table-hover">
                 <thead className="bg-secondary-subtle">
                 <tr>
@@ -84,6 +78,18 @@ const ListExpense = () => {
                 totalItems={expenses.length}
                 paginate={paginate}
             />
+            <div className="justify-content-center d-flex my-3">
+                <Link to="/expense/add">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Додади трошок
+                    </button>
+                </Link>
+                <Link to="/expense/statistics">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Прикажи статистики
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };
