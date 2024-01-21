@@ -24,7 +24,7 @@ const EditCategory = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.get(`http://localhost:9091/api/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/category/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const { categoryName } = response.data;
