@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditCategory = () => {
@@ -24,7 +24,7 @@ const EditCategory = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/category/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/edit/${id}`, config)
             .then((response) => {
                 console.log('I am in .then')
                 const { categoryName } = response.data;
@@ -33,7 +33,7 @@ const EditCategory = () => {
             .catch((error) => {
                 console.error("Error fetching Category data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -47,7 +47,7 @@ const EditCategory = () => {
             const res = await axios.put(`http://localhost:9091/api/category/edit/${id}`, formData, config);
             setResponse(res.data);
 
-            navigate('/categories');
+            navigate('/home');
         } catch (error) {
             console.error('Грешка при измена: ', error);
             setResponse('Неуспешна промена на категорија. Обидете се повторно!');
@@ -55,16 +55,20 @@ const EditCategory = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Категорија </label>
                 <input
                     type="text"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='categoryName'
                     value={formData.categoryName}
                     placeholder={formData.categoryName}
                 />
-                <button type='submit'> Ажурирај категорија </button>
+                <button type='submit' className="btn btn-success"> Ажурирај категорија </button>
+                <Link to="/seed/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

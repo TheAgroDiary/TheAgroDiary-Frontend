@@ -50,6 +50,7 @@ const ListExpense = () => {
                     <th className="bg-secondary-subtle"> Сума во денари </th>
                     <th className="bg-secondary-subtle"> Семе </th>
                     <th className="bg-secondary-subtle"> Количина на семе </th>
+                    <th className="bg-secondary-subtle"> Категорија </th>
                     <th className="bg-secondary-subtle"> Опис </th>
                     <th className="bg-secondary-subtle"> Датум </th>
                     <th className="bg-secondary-subtle"> </th>
@@ -62,8 +63,9 @@ const ListExpense = () => {
                         <td>{expense.expenseSum}</td>
                         <td>{expense.seed.seedName}</td>
                         <td>{expense.seedAmountKg}</td>
+                        <td>{expense.category.categoryName}</td>
                         <td>{expense.description}</td>
-                        <td>{expense.date}</td>
+                        <td>{new Date(expense.date).toLocaleDateString()}</td>
                         <td>
                             <Link to={`/editExpense/${expense.expenseId}`}>
                                 <button className="edit-buttons p-2 rounded-2"> Измени </button>

@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
-import Register from './Components/Register'
+import Register from './Components/Register';
 import Home from "./Components/Home";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
@@ -36,57 +36,78 @@ import RevenueStatistics from "./Components/Statistics/RevenueStatistics";
 function App() {
   return (
       <Router>
-          {/*<Fragment>*/}
-              <AuthProvider>
-                  <div className="d-flex flex-column min-vh-100">
-                      <Header/>
-                      <div>
-                          <Routes>
-                              <Route path="/" element={<Home/>}/>
-                              <Route path="/home" element={<Home/>}/>
-                              <Route path="/register" element={<Register/>}/>
-                              <Route path="/login" element={<Login/>}/>
-                              {/*<Route path="/login" element={<Logout/>}/>*/}
-                              <Route path="/seed" element={<AddSeed/>}/>
-                              <Route path="/editSeed/:id" element={<EditSeed/>}/>
-                              <Route path="/category" element={<AddCategory/>}/>
-                              <Route path="/editCategory/:id" element={<EditCategory/>}/>
+          <AuthProvider>
+              <div className="d-flex flex-column min-vh-100">
+                  <Header/>
+                  <div>
+                      <Routes>
+                          {/*<Route path='/protected' element={<PrivateRoute/>}/>*/}
+                          <Route path="/" element={<Home/>}/>
+                          <Route path="/home" element={<Home/>}/>
+                          <Route path="/register" element={<Register/>}/>
+                          <Route path="/login" element={<Login/>}/>
+                          <Route path="/seed" element={<AddSeed/>}/>
+                          <Route path="/editSeed/:id" element={<EditSeed/>}/>
+                          <Route path="/category" element={<AddCategory/>}/>
+                          <Route path="/editCategory/:id" element={<EditCategory/>}/>
+
+                          <Route path="/plantation/add" element={<PrivateRoute/>}>
                               <Route path="/plantation/add" element={<AddPlantation/>}/>
-                              <Route exact path='/plantation/all' element={<PrivateRoute/>}>
-                                  <Route path="/plantation/all" element={<ListPlantation/>}/>
-                              </Route>
-                              {/*<PrivateRoute path="/plantation/all" element={<ListPlantation/>}/>*/}
+                          </Route>
+                          <Route path="/plantation/all" element={<PrivateRoute/>}>
+                              <Route path="/plantation/all" element={<ListPlantation/>}/>
+                          </Route>
+                          <Route path="/editPlantation/:id" element={<PrivateRoute/>}>
                               <Route path="/editPlantation/:id" element={<EditPlantation/>}/>
+                          </Route>
+                          <Route path="/deletePlantation/:id" element={<PrivateRoute/>}>
                               <Route path="/deletePlantation/:id" element={<DeletePlantation/>}/>
+                          </Route>
+                          <Route path="/plantation/statistics" element={<PrivateRoute/>}>
                               <Route path="/plantation/statistics" element={<PlantationStatistics/>}/>
-                              <Route path="/yield/add" element={<PrivateRoute/>}>
-                                  <Route path="/yield/add" element={<AddYield/>}/>
-                              </Route>
-                              <Route path="/yield/all" element={<PrivateRoute/>}>
-                                  <Route path="/yield/all" element={<ListYield/>}/>
-                              </Route>
-                              <Route path="/editYield/:id" element={<PrivateRoute/>}>
-                                  <Route path="/editYield/:id" element={<EditYield/>}/>
-                              </Route>
+                          </Route>
+                          <Route path="/yield/add" element={<PrivateRoute/>}>
+                              <Route path="/yield/add" element={<AddYield/>}/>
+                          </Route>
+                          <Route path="/yield/all" element={<PrivateRoute/>}>
+                              <Route path="/yield/all" element={<ListYield/>}/>
+                          </Route>
+                          <Route path="/editYield/:id" element={<PrivateRoute/>}>
+                              <Route path="/editYield/:id" element={<EditYield/>}/>
+                          </Route>
+                          <Route path="/yield/statistics" element={<PrivateRoute/>}>
                               <Route path="/yield/statistics" element={<YieldStatistics/>}/>
+                          </Route>
+                          <Route path="/expense/all" element={<PrivateRoute/>}>
                               <Route path="/expense/all" element={<ListExpense/>}/>
+                          </Route>
+                          <Route path="/expense/add" element={<PrivateRoute/>}>
                               <Route path="/expense/add" element={<AddExpense/>}/>
+                          </Route>
+                          <Route path="/editExpense/:id" element={<PrivateRoute/>}>
                               <Route path="/editExpense/:id" element={<EditExpense/>}/>
+                          </Route>
+                          <Route path="/expense/statistics" element={<PrivateRoute/>}>
                               <Route path="/expense/statistics" element={<ExpenseStatistics/>}/>
+                          </Route>
+                          <Route path="/revenue/all" element={<PrivateRoute/>}>
                               <Route path="/revenue/all" element={<ListRevenue/>}/>
+                          </Route>
+                          <Route path="/revenue/add" element={<PrivateRoute/>}>
                               <Route path="/revenue/add" element={<AddRevenue/>}/>
+                          </Route>
+                          <Route path="/editRevenue/:id" element={<PrivateRoute/>}>
                               <Route path="/editRevenue/:id" element={<EditRevenue/>}/>
+                          </Route>
+                          <Route path="/revenue/statistics" element={<PrivateRoute/>}>
                               <Route path="/revenue/statistics" element={<RevenueStatistics/>}/>
-                          </Routes>
-                      </div>
-                      <Footer/>
+                          </Route>
+                      </Routes>
                   </div>
-              </AuthProvider>
-          {/*</Fragment>*/}
+                  <Footer/>
+              </div>
+          </AuthProvider>
       </Router>
-    // <div className="App">
-    //   <Register/>
-    // </div>
   );
 }
 

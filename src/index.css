@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.logo {
+  height: 30px;
+  /*max-height: 70px;*/
+  overflow: auto;
+  width: auto;
+  /*position: absolute;*/
+}
+
 .navigation-bar {
   background-color: #4EAE3A;
 }

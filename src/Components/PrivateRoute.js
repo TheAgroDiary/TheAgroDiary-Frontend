@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, Navigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
     const isTokenValid = () => {
@@ -8,8 +8,10 @@ const PrivateRoute = () => {
             const expirationTime = tokenData.exp * 1000; // Convert expiration time to milliseconds
             const currentTime = Date.now();
 
-            // If the token is expired, remove it and return false
+            // If the token is expired, remove it and navigate to login
             if (expirationTime < currentTime) {
+                console.log('Expiration time is less than current time')
+                console.log(expirationTime, currentTime)
                 localStorage.removeItem('jwt');
                 return false;
             }
@@ -18,7 +20,7 @@ const PrivateRoute = () => {
         return false;
     };
 
-    return isTokenValid ? <Outlet /> : <Link to="/login"/>
+    return isTokenValid() ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

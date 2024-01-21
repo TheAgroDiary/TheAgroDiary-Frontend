@@ -59,7 +59,7 @@ const ListRevenue = () => {
                         <td>{revenue.revenueSum}</td>
                         <td>{revenue.seed.seedName}</td>
                         <td>{revenue.seedAmountKg}</td>
-                        <td>{revenue.date}</td>
+                        <td>{new Date(revenue.date).toLocaleDateString()}</td>
                         <td>
                             <Link to={`/editRevenue/${revenue.revenueId}`}>
                                 <button className="edit-buttons p-2 rounded-2"> Измени </button>

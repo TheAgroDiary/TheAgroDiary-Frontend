@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditSeed = () => {
@@ -24,7 +24,7 @@ const EditSeed = () => {
 
     useEffect(() => {
         // Fetch the seed data for editing when the component mounts
-        axios.put(`http://localhost:9091/api/seed/edit/${id}`, config)
+        axios.get(`http://localhost:9091/api/seed/${id}`, config)
             .then((response) => {
                 const { seedName } = response.data;
                 setFormData({ seedName });
@@ -32,7 +32,7 @@ const EditSeed = () => {
             .catch((error) => {
                 console.error("Error fetching Seed data: ", error);
             });
-    }, [id, config]);
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,16 +54,20 @@ const EditSeed = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
                 <input
                     type="text"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='seedName'
                     value={formData.seedName}
                     placeholder={formData.seedName}
                 />
-                <button type='submit'>Edit Seed</button>
+                <button type='submit' className="btn btn-success"> Ажурирај семе </button>
+                <Link to="/home" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

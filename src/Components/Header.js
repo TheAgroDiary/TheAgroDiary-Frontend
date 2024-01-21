@@ -20,8 +20,10 @@ const Header = () => {
     };
 
     let home = (
-            <a id="home" className="text-light text-opacity-75 menu-bar-items navbar-brand rounded-2 p-2" href="/home"> Почетна </a>
-        )
+        <a id="home" className="text-light text-opacity-75 navbar-brand rounded-2 p-2" href="/home">
+            <img src="./assets/images/logo3.png" className="logo" alt="Почетна"/>
+        </a>
+    )
 
     if (localStorage.getItem('jwt')) {
         authenticate = (
