@@ -6,6 +6,7 @@ import Home from "./Components/Home";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Login from "./Components/Login";
+import UserProfile from "./Components/Profile/UserProfile";
 import AddSeed from "./Components/Seed/AddSeed";
 import EditSeed from "./Components/Seed/EditSeed";
 import AddPlantation from "./Components/Plantation/AddPlantation";
@@ -41,16 +42,31 @@ function App() {
                   <Header/>
                   <div>
                       <Routes>
-                          {/*<Route path='/protected' element={<PrivateRoute/>}/>*/}
-                          <Route path="/" element={<Home/>}/>
-                          <Route path="/home" element={<Home/>}/>
+                          <Route path='/protected' element={<PrivateRoute/>}/>
                           <Route path="/register" element={<Register/>}/>
                           <Route path="/login" element={<Login/>}/>
-                          <Route path="/seed" element={<AddSeed/>}/>
-                          <Route path="/editSeed/:id" element={<EditSeed/>}/>
-                          <Route path="/category" element={<AddCategory/>}/>
-                          <Route path="/editCategory/:id" element={<EditCategory/>}/>
 
+                          <Route path="/myProfile" element={<PrivateRoute/>}>
+                              <Route path="/myProfile" element={<UserProfile/>}/>
+                          </Route>
+                          <Route path="/" element={<PrivateRoute/>}>
+                              <Route path="/" element={<Home/>}/>
+                          </Route>
+                          <Route path="/home" element={<PrivateRoute/>}>
+                              <Route path="/home" element={<Home/>}/>
+                          </Route>
+                          <Route path="/seed" element={<PrivateRoute/>}>
+                              <Route path="/seed" element={<AddSeed/>}/>
+                          </Route>
+                          <Route path="/editSeed/:id" element={<PrivateRoute/>}>
+                              <Route path="/editSeed/:id" element={<EditSeed/>}/>
+                          </Route>
+                          <Route path="/category" element={<PrivateRoute/>}>
+                              <Route path="/category" element={<AddCategory/>}/>
+                          </Route>
+                          <Route path="/editCategory/:id" element={<PrivateRoute/>}>
+                              <Route path="/editCategory/:id" element={<EditCategory/>}/>
+                          </Route>
                           <Route path="/plantation/add" element={<PrivateRoute/>}>
                               <Route path="/plantation/add" element={<AddPlantation/>}/>
                           </Route>

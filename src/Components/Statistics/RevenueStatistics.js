@@ -4,6 +4,7 @@ import BarChartYearSeed from "./BarChartYearSeed";
 import BarChartYearSeedType from "./BarChartYearSeedType";
 import BarChartYearSeedExpense from "./BarChartYearSeedExpense";
 import BarChartYearSeedRevenue from "./BarChartYearSeedRevenue";
+import { showHideTableStats } from "../CustomJavaScript";
 
 const RevenueStatistics = () => {
 
@@ -35,9 +36,8 @@ const RevenueStatistics = () => {
             })
     }, [])
 
-    const showTables = () => {
-        document.getElementById("t1").style.display = 'block';
-        document.getElementById("t2").style.display = 'block';
+    const tableStatistics = () => {
+        showHideTableStats("tableStats")
     }
 
     return (
@@ -52,49 +52,51 @@ const RevenueStatistics = () => {
             </div>
 
             <div className="justify-content-center d-flex my-3">
-                <button className="add-new p-2 rounded-2 mx-1" onClick={showTables}>
+                <button className="add-new p-2 rounded-2 mx-1" onClick={tableStatistics}>
                     Прикажи табеларно
                 </button>
             </div>
-            <div id="t1" style={{display: "none"}}>
-                <h5 className="justify-content-center d-flex"> Вкупна сума од приходи по година и семе </h5>
-                <table className="table table-striped table-hover mt-2">
-                    <thead className="bg-secondary-subtle">
-                    <tr>
-                        <th className="bg-secondary-subtle"> Година </th>
-                        <th className="bg-secondary-subtle"> Семе </th>
-                        <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {statistics1.map(s1 => (
-                        <tr key={`${s1.year}-${s1.seedName}`}>
-                            <td>{s1.year}</td>
-                            <td>{s1.seedName}</td>
-                            <td>{s1.totalRevenue}</td>
+            <div id="tableStats" style={{display: "none"}}>
+                <div id="t1">
+                    <h5 className="justify-content-center d-flex"> Вкупна сума од приходи по година и семе </h5>
+                    <table className="table table-striped table-hover mt-2">
+                        <thead className="bg-secondary-subtle">
+                        <tr>
+                            <th className="bg-secondary-subtle"> Година </th>
+                            <th className="bg-secondary-subtle"> Семе </th>
+                            <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-            <div id="t2" style={{display: "none"}}>
-                <h5 className="justify-content-center d-flex"> Вкупна сума од приходи по година </h5>
-                <table className="table table-striped table-hover mt-2">
-                    <thead className="bg-secondary-subtle">
-                    <tr>
-                        <th className="bg-secondary-subtle"> Година </th>
-                        <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {statistics2.map(s2 => (
-                        <tr key={`${s2.year}-${s2.type}`}>
-                            <td>{s2.year}</td>
-                            <td>{s2.totalRevenue}</td>
+                        </thead>
+                        <tbody>
+                        {statistics1.map(s1 => (
+                            <tr key={`${s1.year}-${s1.seedName}`}>
+                                <td>{s1.year}</td>
+                                <td>{s1.seedName}</td>
+                                <td>{s1.totalRevenue}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="t2">
+                    <h5 className="justify-content-center d-flex"> Вкупна сума од приходи по година </h5>
+                    <table className="table table-striped table-hover mt-2">
+                        <thead className="bg-secondary-subtle">
+                        <tr>
+                            <th className="bg-secondary-subtle"> Година </th>
+                            <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {statistics2.map(s2 => (
+                            <tr key={`${s2.year}-${s2.type}`}>
+                                <td>{s2.year}</td>
+                                <td>{s2.totalRevenue}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

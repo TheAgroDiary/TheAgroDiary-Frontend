@@ -49,7 +49,12 @@ const Header = () => {
                         </a>
                         <ul className="dropdown-menu dropdown-menu-end dropdown-nav-list" aria-labelledby="navbarDropdown">
                             <li>
-                                <button className="dropdown-item fw-medium" href="#"> Мој профил </button>
+                                <Link to="/myProfile" className="ropdown-item fw-medium unlink"
+                                      style={{ textDecoration: 'none' }}>
+                                    <button className="dropdown-item fw-medium" href="/myProfile">
+                                        Мој профил
+                                    </button>
+                                </Link>
                             </li>
                             <li>
                                 <button className="dropdown-item fw-medium" onClick={handleLogout}> Одјави се </button>

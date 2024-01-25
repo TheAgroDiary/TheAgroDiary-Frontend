@@ -81,7 +81,7 @@ const ListYield = () => {
                     </button>
                 </Link>
                 <Link to="/yield/statistics">
-                    <button className="add-new p-2 rounded-2 mx-1">
+                    <button className="statistics add-new p-2 rounded-2 mx-1">
                         Прикажи статистики
                     </button>
                 </Link>
