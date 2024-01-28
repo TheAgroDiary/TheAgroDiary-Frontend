@@ -1,4 +1,3 @@
-// const CustomJavaScript = () => {
 
 export function showHideTableStats (e) {
     const element = document.getElementById(e);
@@ -9,6 +8,3 @@ export function showHideTableStats (e) {
         element.style.display = "none";
     }
 }
-// }
-//
-// export default CustomJavaScript;
