@@ -50,9 +50,20 @@ const UserProfile = () => {
         setIsFormModified(true);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         // Check if the password field is empty before submitting
-        const shouldUpdatePassword = formData.password.trim() !== '';
+        // const shouldUpdatePassword = formData.password.trim() !== '';
+
+        try {
+            const res = await axios.put(`http://localhost:9091/api/user/editUser`, formData, config);
+            setResponse(res.data);
+
+            navigate('/myProfile');
+        } catch (error) {
+            console.error('Грешка при измена: ', error);
+            setResponse('Неуспешно ажурирање. Обидете се повторно!');
+        }
 
         // After submitting, reset the form modification state
         setIsFormModified(false);
@@ -61,6 +72,16 @@ const UserProfile = () => {
     return (
         <div className="d-flex justify-content-center align-items-center">
             <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Корисничко име </label>
+                <input
+                    type="text"
+                    className="form-control my-2"
+                    readOnly
+                    disabled
+                    onChange={handleChange}
+                    name='username'
+                    value={formData.username}
+                    placeholder={formData.username}/>
                 <label> Име </label>
                 <input
                     type="text"
@@ -79,17 +100,12 @@ const UserProfile = () => {
                     name='lastName'
                     value={formData.lastName}
                     placeholder={formData.lastName}/>
-                <label> Корисничко име </label>
+                <label> Нова лозинка </label>
                 <input
-                    type="text"
+                    type="password"
                     className="form-control my-2"
-                    required
-                    readOnly
-                    disabled
                     onChange={handleChange}
-                    name='username'
-                    value={formData.username}
-                    placeholder={formData.username}/>
+                    name='password'/>
 
                 {isFormModified && (
                     <button type="submit" className="btn btn-primary mt-3"> Зачувај ги промените </button>
