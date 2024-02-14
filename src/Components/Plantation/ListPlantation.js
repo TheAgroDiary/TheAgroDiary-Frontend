@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../CustomJavaScript"
 
 const ListPlantation = () => {
     const [plantations, setPlantations] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [plantationsPerPage] = useState(5); // Change this value for items per page
+    const [originalPlantations, setOriginalPlantations] = useState([]);
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -20,6 +20,20 @@ const ListPlantation = () => {
         fetchPlantations();
     }, []);
 
+    const columns = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Вид семе', selector: row => row.type, sortable: true},
+        {name: 'Количина во кг.', selector: row => row.amountKg},
+        {name: '',
+            cell: row => (
+                <Link to={`/editPlantation/${row.plantationId}`}>
+                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                </Link>
+            ),
+            button: true,}
+    ]
+
     const fetchPlantations = () => {
         axios.get('http://localhost:9091/api/plantation/my', config)
             .then(response => {
@@ -28,53 +42,40 @@ const ListPlantation = () => {
                     return new Date(b.updatedAt) - new Date(a.updatedAt); // Replace 'updatedAt' with the appropriate field
                 });
                 setPlantations(sortedPlantations);
+                setOriginalPlantations(sortedPlantations);
             })
             .catch(error => {
                 console.error('Error fetching plantations: ', error);
             });
     };
 
-    // Pagination
-    const indexOfLastPlantation = currentPage * plantationsPerPage;
-    const indexOfFirstPlantation = indexOfLastPlantation - plantationsPerPage;
-    const currentPlantations = plantations.slice(indexOfFirstPlantation, indexOfLastPlantation);
-
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    const habdleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setPlantations(originalPlantations);
+        }
+        else {
+            const filteredData = plantations.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setPlantations(filteredData);
+        }
+    }
+    
     return (
         <div className="container-fluid">
             <h5> Мои сеидби </h5>
-            <table className="table table-striped table-hover mt-2">
-                <thead className="bg-secondary-subtle">
-                <tr>
-                    <th className="bg-secondary-subtle"> Година </th>
-                    <th className="bg-secondary-subtle"> Семе </th>
-                    <th className="bg-secondary-subtle"> Вид семе </th>
-                    <th className="bg-secondary-subtle"> Количина во кг. </th>
-                    <th className="bg-secondary-subtle">  </th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentPlantations.map(plantation => (
-                    <tr key={plantation.plantationId}>
-                        <td>{plantation.year}</td>
-                        <td>{plantation.seed.seedName}</td>
-                        <td>{plantation.type}</td>
-                        <td>{plantation.amountKg}</td>
-                        <td>
-                            <Link to={`/editPlantation/${plantation.plantationId}`}>
-                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={plantationsPerPage}
-                totalItems={plantations.length}
-                paginate={paginate}
-            />
+            <div>
+                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            </div>
+            <DataTable
+                columns={columns}
+                data={plantations}
+                customStyles={customStyles}
+                pagination
+                striped
+            >
+            </DataTable>
             <div className="justify-content-center d-flex my-3">
                 <Link to="/plantation/add">
                     <button className="add-new p-2 rounded-2 mx-1">
