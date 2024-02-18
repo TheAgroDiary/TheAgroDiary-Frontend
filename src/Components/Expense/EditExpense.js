@@ -34,25 +34,8 @@ const EditExpense = () => {
         // Fetch the seed data for editing when the component mounts
         axios.get(`http://localhost:9091/api/expense/${id}`, config)
             .then((response) => {
-                console.log('I am in .then')
-                const {
-                    expenseSum,
-                    date,
-                    seedAmountKg,
-                    description,
-                    personId,
-                    seedId,
-                    categoryId
-                } = response.data;
-                setFormData({
-                    expenseSum,
-                    date,
-                    seedAmountKg,
-                    description,
-                    personId,
-                    seedId,
-                    categoryId
-                });
+                const { expenseSum, date, seedAmountKg, description, personId, seedId, categoryId } = response.data;
+                setFormData({ expenseSum, date, seedAmountKg, description, personId, seedId, categoryId });
             })
             .catch((error) => {
                 console.error("Error fetching Expense data: ", error);

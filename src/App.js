@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Register from './Components/Register';
 import Home from "./Components/Home";
 import Header from "./Components/Header";
@@ -25,9 +25,7 @@ import ListRevenue from "./Components/Revenue/ListRevenue";
 import AddRevenue from "./Components/Revenue/AddRevenue";
 import EditRevenue from "./Components/Revenue/EditRevenue";
 import {AuthProvider} from "./AuthContext";
-import Logout from "./Components/Logout";
 import PrivateRoute from "./Components/PrivateRoute";
-import {Fragment} from "react";
 import PlantationStatistics from "./Components/Statistics/PlantationStatistics";
 import YieldStatistics from "./Components/Statistics/YieldStatistics";
 import ExpenseStatistics from "./Components/Statistics/ExpenseStatistics";

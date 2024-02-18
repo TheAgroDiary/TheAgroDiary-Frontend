@@ -3,6 +3,8 @@ import axios from "axios";
 import BarChartYearSeed from "./BarChartYearSeed";
 import BarChartYearSeedType from "./BarChartYearSeedType";
 import { showHideTableStats } from "../CustomJavaScript";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles"
 
 const YieldStatistics = () => {
 
@@ -16,6 +18,19 @@ const YieldStatistics = () => {
             'Authorization': `Bearer ${token}`,
         }
     };
+
+    const columnsT1 = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seedName, sortable: true},
+        {name: 'Вкупно количина кг.', selector: row => row.totalAmountKg, sortable: true}
+    ]
+
+    const columnsT2 = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seedName, sortable: true},
+        {name: 'Сорта', selector: row => row.type, sortable: true},
+        {name: 'Вкупно количина кг.', selector: row => row.totalAmountKg, sortable: true}
+    ]
 
     useEffect (() => {
         axios.get('http://localhost:9091/api/yield/statistics1', config)
@@ -58,47 +73,25 @@ const YieldStatistics = () => {
             <div id="tableStats" style={{display: "none"}}>
                 <div id="t1">
                     <h5 className="justify-content-center d-flex"> Вкупни количини на прионси по година и семе </h5>
-                    <table className="table table-striped table-hover mt-2">
-                        <thead className="bg-secondary-subtle">
-                        <tr>
-                            <th className="bg-secondary-subtle"> Година </th>
-                            <th className="bg-secondary-subtle"> Семе </th>
-                            <th className="bg-secondary-subtle"> Вкупно количина кг. </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {statistics1.map(s1 => (
-                            <tr key={`${s1.year}-${s1.seedName}`}>
-                                <td>{s1.year}</td>
-                                <td>{s1.seedName}</td>
-                                <td>{s1.totalAmountKg}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <DataTable
+                        pagination
+                        columns={columnsT1}
+                        data={statistics1}
+                        customStyles={customStyles}
+                        highlightOnHover
+                    >
+                    </DataTable>
                 </div>
                 <div id="t2">
                     <h5 className="justify-content-center d-flex"> Вкупни количини на прионси по година, семе и сорта </h5>
-                    <table className="table table-striped table-hover mt-2">
-                        <thead className="bg-secondary-subtle">
-                        <tr>
-                            <th className="bg-secondary-subtle"> Година </th>
-                            <th className="bg-secondary-subtle"> Семе </th>
-                            <th className="bg-secondary-subtle"> Сорта </th>
-                            <th className="bg-secondary-subtle"> Вкупно количина кг. </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {statistics2.map(s2 => (
-                            <tr key={`${s2.year}-${s2.type}`}>
-                                <td>{s2.year}</td>
-                                <td>{s2.seedName}</td>
-                                <td>{s2.type}</td>
-                                <td>{s2.totalAmountKg}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <DataTable
+                        pagination
+                        columns={columnsT2}
+                        data={statistics2}
+                        customStyles={customStyles}
+                        highlightOnHover
+                    >
+                    </DataTable>
                 </div>
             </div>
         </div>

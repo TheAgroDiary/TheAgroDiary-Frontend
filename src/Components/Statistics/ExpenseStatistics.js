@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import BarChartYearSeed from "./BarChartYearSeed";
-import BarChartYearSeedType from "./BarChartYearSeedType";
-import BarChartYearSeedExpense from "./BarChartYearSeedExpense";
+import BarChartYearTotalRevenueAndExpense from "./BarChartYearTotalRevenueAndExpense";
+import BarChartYearSeedRevenueAndExpense from "./BarChartYearSeedRevenueAndExpense";
 import { showHideTableStats } from "../CustomJavaScript";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles";
 
 const ExpenseStatistics = () => {
 
     const [statistics1, setStatistics1] = useState([]);
     const [statistics2, setStatistics2] = useState([]);
+    const totalExpenseAttribute = 'totalExpense'
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -17,6 +19,17 @@ const ExpenseStatistics = () => {
             'Authorization': `Bearer ${token}`,
         }
     };
+
+    const columnsT1 = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seedName, sortable: true},
+        {name: 'Вкупна сума мкд.', selector: row => row.totalExpense, sortable: true}
+    ]
+
+    const columnsT2 = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Вкупна сума мкд.', selector: row => row.totalExpense, sortable: true}
+    ]
 
     useEffect (() => {
         axios.get('http://localhost:9091/api/expense/statistics1', config)
@@ -43,11 +56,11 @@ const ExpenseStatistics = () => {
         <div className="container-fluid">
             <h5 className="justify-content-center d-flex"> Вкупна сума од трошоци по година и семе </h5>
             <div className="m-3 justify-content-center">
-                <BarChartYearSeedExpense data={statistics1}/>
+                <BarChartYearSeedRevenueAndExpense data={statistics1} totals={totalExpenseAttribute}/>
             </div>
             <h5 className="justify-content-center d-flex"> Вкупна сума од трошоци по година </h5>
             <div className="m-3 justify-content-center">
-                <BarChartYearSeedType data={statistics2}/>
+                <BarChartYearTotalRevenueAndExpense data={statistics2} totals={totalExpenseAttribute}/>
             </div>
 
             <div className="justify-content-center d-flex my-3">
@@ -58,43 +71,25 @@ const ExpenseStatistics = () => {
             <div id="tableStats" style={{display: "none"}}>
                 <div id="t1">
                     <h5 className="justify-content-center d-flex"> Вкупна сума од трошоци по година и семе </h5>
-                    <table className="table table-striped table-hover mt-2">
-                        <thead className="bg-secondary-subtle">
-                        <tr>
-                            <th className="bg-secondary-subtle"> Година </th>
-                            <th className="bg-secondary-subtle"> Семе </th>
-                            <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {statistics1.map(s1 => (
-                            <tr key={`${s1.year}-${s1.seedName}`}>
-                                <td>{s1.year}</td>
-                                <td>{s1.seedName}</td>
-                                <td>{s1.totalExpense}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <DataTable
+                        pagination
+                        columns={columnsT1}
+                        data={statistics1}
+                        customStyles={customStyles}
+                        highlightOnHover
+                    >
+                    </DataTable>
                 </div>
                 <div id="t2">
                     <h5 className="justify-content-center d-flex"> Вкупна сума од трошоци по година </h5>
-                    <table className="table table-striped table-hover mt-2">
-                        <thead className="bg-secondary-subtle">
-                        <tr>
-                            <th className="bg-secondary-subtle"> Година </th>
-                            <th className="bg-secondary-subtle"> Вкупна сума мкд. </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {statistics2.map(s2 => (
-                            <tr key={`${s2.year}-${s2.type}`}>
-                                <td>{s2.year}</td>
-                                <td>{s2.totalExpense}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <DataTable
+                        pagination
+                        columns={columnsT2}
+                        data={statistics2}
+                        customStyles={customStyles}
+                        highlightOnHover
+                    >
+                    </DataTable>
                 </div>
             </div>
         </div>

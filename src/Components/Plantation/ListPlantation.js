@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import DataTable from "react-data-table-component";
-import customStyles from "../CustomJavaScript"
+import customStyles from "../DataTableCustomStyles"
 
 const ListPlantation = () => {
     const [plantations, setPlantations] = useState([]);
@@ -16,15 +16,11 @@ const ListPlantation = () => {
         }
     };
 
-    useEffect(() => {
-        fetchPlantations();
-    }, []);
-
     const columns = [
         {name: 'Година', selector: row => row.year, sortable: true},
         {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
         {name: 'Вид семе', selector: row => row.type, sortable: true},
-        {name: 'Количина во кг.', selector: row => row.amountKg},
+        {name: 'Количина во кг.', selector: row => row.amountKg, sortable: true},
         {name: '',
             cell: row => (
                 <Link to={`/editPlantation/${row.plantationId}`}>
@@ -33,6 +29,10 @@ const ListPlantation = () => {
             ),
             button: true,}
     ]
+
+    useEffect(() => {
+        fetchPlantations();
+    }, []);
 
     const fetchPlantations = () => {
         axios.get('http://localhost:9091/api/plantation/my', config)
@@ -69,11 +69,11 @@ const ListPlantation = () => {
                 <input type="text" placeholder="Search..." onChange={habdleFilter}/>
             </div>
             <DataTable
+                pagination
                 columns={columns}
                 data={plantations}
                 customStyles={customStyles}
-                pagination
-                striped
+                highlightOnHover
             >
             </DataTable>
             <div className="justify-content-center d-flex my-3">

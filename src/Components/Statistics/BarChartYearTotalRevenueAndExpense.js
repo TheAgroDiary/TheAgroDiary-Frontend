@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarChartYearSeed = ({ data }) => {
+const BarChartYearTotalRevenueAndExpense = ({ data, totals }) => {
     const [chart, setChart] = useState(null);
     const chartRef = React.createRef();
 
@@ -10,7 +10,6 @@ const BarChartYearSeed = ({ data }) => {
             const ctx = chartRef.current.getContext('2d');
 
             const years = [...new Set(data.map(item => item.year))]; // Get unique years
-            const seedNames = [...new Set(data.map(item => item.seedName))]; // Get unique seedNames
             const fixedColors = ["#b0120a", "#ffab91", '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']; // Define fixed colors
 
             if (chart) {
@@ -22,21 +21,14 @@ const BarChartYearSeed = ({ data }) => {
                     type: 'bar',
                     data: {
                         labels: years,
-                        datasets: seedNames.map((seedName, seedIndex) => {
-                            const seedData = years.map((year, yearIndex) => {
-                                const filteredData = data.filter(item => item.year === year && item.seedName === seedName);
-                                return filteredData.length > 0 ? filteredData[0].totalExpense : 0;
-                            });
-
-                            return {
-                                label: seedName,
-                                data: seedData,
-                                backgroundColor: fixedColors[seedIndex % fixedColors.length],
-                                // backgroundColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1)`, // Bar color
-                                // borderColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1)`, // Border color
-                                // borderWidth: 1,
-                            };
-                        }),
+                        datasets: [{
+                            label: 'Вкупно',
+                            data: years.map((year, yearIndex) => {
+                                const filteredData = data.filter(item => item.year === year);
+                                return filteredData.length > 0 ? filteredData[0][totals] : 0;
+                            }),
+                            backgroundColor: fixedColors[0],
+                        }],
                     },
                     options: {
                         responsive: true,
@@ -55,5 +47,5 @@ const BarChartYearSeed = ({ data }) => {
     return <canvas ref={chartRef} style={{ width: '300px', height:'200px' }} />;
 };
 
-export default BarChartYearSeed;
+export default BarChartYearTotalRevenueAndExpense;
 

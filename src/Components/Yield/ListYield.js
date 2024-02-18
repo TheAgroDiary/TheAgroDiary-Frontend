@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles"
 
 const ListYield = () => {
     const [yields, setYields] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [yieldsPerPage] = useState(5); // Change this value for items per page
+    const [originalYields, setOriginalYields] = useState([]);
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -15,6 +15,20 @@ const ListYield = () => {
             'Authorization': `Bearer ${token}`,
         }
     };
+
+    const columns = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Вид семе', selector: row => row.type, sortable: true},
+        {name: 'Количина во кг.', selector: row => row.amountKg, sortable: true},
+        {name: '',
+            cell: row => (
+                <Link to={`/editYield/${row.yieldId}`}>
+                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                </Link>
+            ),
+            button: true,}
+    ]
 
     useEffect(() => {
         fetchYields();
@@ -27,53 +41,40 @@ const ListYield = () => {
                     return new Date(b.updatedAt) - new Date(a.updatedAt);
                 })
                 setYields(sortedYields);
+                setOriginalYields(sortedYields);
             })
             .catch(error => {
                 console.error('Error fetching yields: ', error);
             });
     };
 
-    // Pagination
-    const indexOfLastYield = currentPage * yieldsPerPage;
-    const indexOfFirstYield = indexOfLastYield - yieldsPerPage;
-    const currentYields = yields.slice(indexOfFirstYield, indexOfLastYield);
-
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const habdleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setYields(originalYields);
+        }
+        else {
+            const filteredData = yields.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setYields(filteredData);
+        }
+    }
 
     return (
         <div className="container-fluid">
             <h5> Мои прионси </h5>
-            <table className="table table-striped table-hover">
-                <thead className="bg-secondary-subtle">
-                <tr>
-                    <th className="bg-secondary-subtle"> Година </th>
-                    <th className="bg-secondary-subtle"> Семе </th>
-                    <th className="bg-secondary-subtle"> Вид семе </th>
-                    <th className="bg-secondary-subtle"> Количина во кг. </th>
-                    <th className="bg-secondary-subtle"> </th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentYields.map(yield_ => (
-                    <tr key={yield_.yieldId}>
-                        <td>{yield_.year}</td>
-                        <td>{yield_.seed.seedName}</td>
-                        <td>{yield_.type}</td>
-                        <td>{yield_.amountKg}</td>
-                        <td>
-                            <Link to={`/editYield/${yield_.yieldId}`}>
-                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={yieldsPerPage}
-                totalItems={yields.length}
-                paginate={paginate}
-            />
+            <div>
+                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            </div>
+            <DataTable
+                pagination
+                columns={columns}
+                data={yields}
+                customStyles={customStyles}
+                highlightOnHover
+            >
+            </DataTable>
             <div className="justify-content-center d-flex my-3">
                 <Link to="/yield/add">
                     <button className="add-new p-2 rounded-2 mx-1">

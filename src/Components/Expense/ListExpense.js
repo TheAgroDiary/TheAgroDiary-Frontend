@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles";
 
 const ListExpense = () => {
     const [expenses, setExpenses] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [expensesPerPage] = useState(5); // Change this value for items per page
+    const [originalExpenses, setOriginalExpenses] = useState([]);
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -15,6 +15,22 @@ const ListExpense = () => {
             'Authorization': `Bearer ${token}`,
         }
     };
+
+    const columns = [
+        {name: 'Категорија', selector: row => row.category.categoryName, sortable: true},
+        {name: 'Сума во денари', selector: row => row.expenseSum, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Количина на семе', selector: row => row.seedAmountKg, sortable: true},
+        {name: 'Опис', selector: row => row.description},
+        {name: 'Датум', selector: row => new Date(row.date).toLocaleDateString(), sortable: true},
+        {name: '',
+            cell: row => (
+                <Link to={`/editExpense/${row.expenseId}`}>
+                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                </Link>
+            ),
+            button: true,},
+    ]
 
     useEffect(() => {
         fetchExpenses();
@@ -27,59 +43,40 @@ const ListExpense = () => {
                     return new Date(b.updatedAt) - new Date(a.updatedAt);
                 })
                 setExpenses(sortedExpenses);
+                setOriginalExpenses(sortedExpenses);
             })
             .catch(error => {
                 console.error('Error fetching expenses: ', error);
             });
     };
 
-    // Pagination
-    const indexOfLastExpense = currentPage * expensesPerPage;
-    const indexOfFirstExpense = indexOfLastExpense - expensesPerPage;
-    const currentExpenses = expenses.slice(indexOfFirstExpense, indexOfLastExpense);
-
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const habdleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setExpenses(originalExpenses);
+        }
+        else {
+            const filteredData = expenses.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setExpenses(filteredData);
+        }
+    }
 
     return (
         <div className="container-fluid">
             <h5></h5>
-            <table className="table table-striped table-hover">
-                <thead className="bg-secondary-subtle">
-                <tr>
-                    <th className="bg-secondary-subtle"> Категорија </th>
-                    <th className="bg-secondary-subtle"> Сума во денари </th>
-                    <th className="bg-secondary-subtle"> Семе </th>
-                    <th className="bg-secondary-subtle"> Количина на семе </th>
-                    <th className="bg-secondary-subtle"> Категорија </th>
-                    <th className="bg-secondary-subtle"> Опис </th>
-                    <th className="bg-secondary-subtle"> Датум </th>
-                    <th className="bg-secondary-subtle"> </th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentExpenses.map(expense => (
-                    <tr key={expense.expenseId}>
-                        <td>{expense.category.categoryName}</td>
-                        <td>{expense.expenseSum}</td>
-                        <td>{expense.seed.seedName}</td>
-                        <td>{expense.seedAmountKg}</td>
-                        <td>{expense.category.categoryName}</td>
-                        <td>{expense.description}</td>
-                        <td>{new Date(expense.date).toLocaleDateString()}</td>
-                        <td>
-                            <Link to={`/editExpense/${expense.expenseId}`}>
-                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={expensesPerPage}
-                totalItems={expenses.length}
-                paginate={paginate}
-            />
+            <div>
+                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            </div>
+            <DataTable
+                pagination
+                columns={columns}
+                data={expenses}
+                customStyles={customStyles}
+                highlightOnHover
+            >
+            </DataTable>
             <div className="justify-content-center d-flex my-3">
                 <Link to="/expense/add">
                     <button className="add-new p-2 rounded-2 mx-1">

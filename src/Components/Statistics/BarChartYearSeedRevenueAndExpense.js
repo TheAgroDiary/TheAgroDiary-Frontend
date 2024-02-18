@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarChartYearSeedRevenue = ({ data }) => {
+const BarChartYearSeedRevenueAndExpense = ({ data, totals }) => {
     const [chart, setChart] = useState(null);
     const chartRef = React.createRef();
 
@@ -25,7 +25,7 @@ const BarChartYearSeedRevenue = ({ data }) => {
                         datasets: seedNames.map((seedName, seedIndex) => {
                             const seedData = years.map((year, yearIndex) => {
                                 const filteredData = data.filter(item => item.year === year && item.seedName === seedName);
-                                return filteredData.length > 0 ? filteredData[0].totalRevenue : 0;
+                                return filteredData.length > 0 ? filteredData[0][totals] : 0;
                             });
 
                             return {
@@ -55,5 +55,5 @@ const BarChartYearSeedRevenue = ({ data }) => {
     return <canvas ref={chartRef} style={{ width: '300px', height:'200px' }} />;
 };
 
-export default BarChartYearSeedRevenue;
+export default BarChartYearSeedRevenueAndExpense;
 

@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles";
 
 const ListRevenue = () => {
     const [revenues, setRevenues] = useState([]);
+    const [originalRevenues, setOriginalRevenues] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [revenuesPerPage] = useState(5); // Change this value for items per page
 
@@ -15,6 +18,20 @@ const ListRevenue = () => {
             'Authorization': `Bearer ${token}`,
         }
     };
+
+    const columns = [
+        {name: 'Сума во денари', selector: row => row.revenueSum, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Количина во кг.', selector: row => row.seedAmountKg, sortable: true},
+        {name: 'Датум', selector: row => new Date(row.date).toLocaleDateString(), sortable: true},
+        {name: '',
+            cell: row => (
+                <Link to={`/editRevenue/${row.revenueId}`}>
+                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                </Link>
+            ),
+            button: true,},
+    ]
 
     useEffect(() => {
         fetchRevenues();
@@ -40,40 +57,33 @@ const ListRevenue = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const habdleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setRevenues(originalRevenues);
+        }
+        else {
+            const filteredData = revenues.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setRevenues(filteredData);
+        }
+    }
+
     return (
         <div className="container-fluid">
            <h5> </h5>
-            <table className="table table-striped table-hover">
-                <thead className="bg-secondary-subtle">
-                <tr>
-                    <th className="bg-secondary-subtle"> Сума во денари </th>
-                    <th className="bg-secondary-subtle"> Семе </th>
-                    <th className="bg-secondary-subtle"> Количина во кг. </th>
-                    <th className="bg-secondary-subtle"> Датум </th>
-                    <th className="bg-secondary-subtle"> </th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentRevenues.map(revenue => (
-                    <tr key={revenue.revenueId}>
-                        <td>{revenue.revenueSum}</td>
-                        <td>{revenue.seed.seedName}</td>
-                        <td>{revenue.seedAmountKg}</td>
-                        <td>{new Date(revenue.date).toLocaleDateString()}</td>
-                        <td>
-                            <Link to={`/editRevenue/${revenue.revenueId}`}>
-                                <button className="edit-buttons p-2 rounded-2"> Измени </button>
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={revenuesPerPage}
-                totalItems={revenues.length}
-                paginate={paginate}
-            />
+            <div>
+                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            </div>
+            <DataTable
+                pagination
+                columns={columns}
+                data={revenues}
+                customStyles={customStyles}
+                highlightOnHover
+            >
+            </DataTable>
             <div className="justify-content-center d-flex my-3">
                 <Link to="/revenue/add">
                     <button className="add-new p-2 rounded-2 mx-1">
