@@ -29,8 +29,7 @@ const ListRevenue = () => {
                 <Link to={`/editRevenue/${row.revenueId}`}>
                     <button className="edit-buttons p-2 rounded-2"> Измени </button>
                 </Link>
-            ),
-            button: true,},
+            )},
     ]
 
     useEffect(() => {
@@ -57,7 +56,7 @@ const ListRevenue = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const habdleFilter = (event) => {
+    const handleFilter = (event) => {
         const { value } = event.target;
         if (value === '') {
             setRevenues(originalRevenues);
@@ -72,9 +71,9 @@ const ListRevenue = () => {
 
     return (
         <div className="container-fluid">
-           <h5> </h5>
-            <div>
-                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+           <h5 className="d-flex justify-content-center"> Мои приходи </h5>
+            <div className="d-flex justify-content-end">
+                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination
@@ -87,7 +86,7 @@ const ListRevenue = () => {
             <div className="justify-content-center d-flex my-3">
                 <Link to="/revenue/add">
                     <button className="add-new p-2 rounded-2 mx-1">
-                        Додади трошок
+                        Додади приход
                     </button>
                 </Link>
                 <Link to="/revenue/statistics">

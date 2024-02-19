@@ -26,8 +26,13 @@ const ListYield = () => {
                 <Link to={`/editYield/${row.yieldId}`}>
                     <button className="edit-buttons p-2 rounded-2"> Измени </button>
                 </Link>
-            ),
-            button: true,}
+            )
+        },
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.yieldId)}> Отстрани </button>
+            )
+        }
     ]
 
     useEffect(() => {
@@ -48,7 +53,18 @@ const ListYield = () => {
             });
     };
 
-    const habdleFilter = (event) => {
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/yield/delete/${id}`, config)
+            .then(() => {
+                setYields(yields.filter(yield_ => yield_.yieldId !== id));
+                setOriginalYields(originalYields.filter(yield_ => yield_.yieldId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting yields: ', error);
+            });
+    };
+
+    const handleFilter = (event) => {
         const { value } = event.target;
         if (value === '') {
             setYields(originalYields);
@@ -63,9 +79,9 @@ const ListYield = () => {
 
     return (
         <div className="container-fluid">
-            <h5> Мои прионси </h5>
-            <div>
-                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            <h5 className="d-flex justify-content-center"> Мои прионси </h5>
+            <div className="d-flex justify-content-end">
+                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination

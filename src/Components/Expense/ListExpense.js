@@ -28,8 +28,7 @@ const ListExpense = () => {
                 <Link to={`/editExpense/${row.expenseId}`}>
                     <button className="edit-buttons p-2 rounded-2"> Измени </button>
                 </Link>
-            ),
-            button: true,},
+            )},
     ]
 
     useEffect(() => {
@@ -50,24 +49,34 @@ const ListExpense = () => {
             });
     };
 
-    const habdleFilter = (event) => {
+    const handleFilter = (event) => {
         const { value } = event.target;
+        let filteredData = null;
         if (value === '') {
             setExpenses(originalExpenses);
         }
         else {
-            const filteredData = expenses.filter(
+            const filteredDataCategory = expenses.filter(
+                row => row.category.categpryName.toLowerCase().includes(value.toLowerCase())
+            );
+            const filteredDataSeed = expenses.filter(
                 row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
             );
+            if (filteredDataCategory != null) {
+                filteredData = filteredDataCategory;
+            }
+            if (filteredDataSeed != null) {
+                filteredData = filteredDataSeed;
+            }
             setExpenses(filteredData);
         }
     }
 
     return (
         <div className="container-fluid">
-            <h5></h5>
-            <div>
-                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            <h5 className="d-flex justify-content-center"> Мои трошоци </h5>
+            <div className="d-flex justify-content-end">
+                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import DataTable from "react-data-table-component";
 import customStyles from "../DataTableCustomStyles"
 
 const ListPlantation = () => {
+    const { id } = useParams();
     const [plantations, setPlantations] = useState([]);
     const [originalPlantations, setOriginalPlantations] = useState([]);
 
@@ -26,8 +27,11 @@ const ListPlantation = () => {
                 <Link to={`/editPlantation/${row.plantationId}`}>
                     <button className="edit-buttons p-2 rounded-2"> Измени </button>
                 </Link>
-            ),
-            button: true,}
+        )},
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.plantationId)}> Отстрани </button>
+        )}
     ]
 
     useEffect(() => {
@@ -49,7 +53,18 @@ const ListPlantation = () => {
             });
     };
 
-    const habdleFilter = (event) => {
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/plantation/delete/${id}`, config)
+            .then(() => {
+                setPlantations(plantations.filter(plantation => plantation.plantationId !== id));
+                setOriginalPlantations(originalPlantations.filter(plantation => plantation.plantationId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting plantation: ', error);
+            });
+    };
+
+    const handleFilter = (event) => {
         const { value } = event.target;
         if (value === '') {
             setPlantations(originalPlantations);
@@ -64,9 +79,9 @@ const ListPlantation = () => {
     
     return (
         <div className="container-fluid">
-            <h5> Мои сеидби </h5>
-            <div>
-                <input type="text" placeholder="Search..." onChange={habdleFilter}/>
+            <h5 className="d-flex justify-content-center"> Мои сеидби </h5>
+            <div className="d-flex justify-content-end">
+                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination

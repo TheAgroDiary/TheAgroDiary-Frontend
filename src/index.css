@@ -64,6 +64,18 @@ code {
   background-image: linear-gradient(to bottom right, #4EAE3A, darkgreen);
 }
 
+.delete-buttons {
+  background-color: inherit;
+  border-style: inset;
+  border-color: darkred;
+}
+
+.delete-buttons:hover {
+  color: whitesmoke;
+  background-color: indianred;
+  background-image: linear-gradient(to bottom right, indianred, darkred);
+}
+
 .form-body {
   border-bottom-style: ridge;
   border-color: forestgreen;
