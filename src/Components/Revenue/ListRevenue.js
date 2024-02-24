@@ -8,8 +8,6 @@ import customStyles from "../DataTableCustomStyles";
 const ListRevenue = () => {
     const [revenues, setRevenues] = useState([]);
     const [originalRevenues, setOriginalRevenues] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [revenuesPerPage] = useState(5); // Change this value for items per page
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -27,9 +25,15 @@ const ListRevenue = () => {
         {name: '',
             cell: row => (
                 <Link to={`/editRevenue/${row.revenueId}`}>
-                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                    <button className="edit-buttons p-2 rounded-2 ms-5"> Измени </button>
                 </Link>
-            )},
+            )
+        },
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.revenueId)}> Отстрани </button>
+            )
+        }
     ]
 
     useEffect(() => {
@@ -49,12 +53,16 @@ const ListRevenue = () => {
             });
     };
 
-    // Pagination
-    const indexOfLastRevenue = currentPage * revenuesPerPage;
-    const indexOfFirstRevenue = indexOfLastRevenue - revenuesPerPage;
-    const currentRevenues = revenues.slice(indexOfFirstRevenue, indexOfLastRevenue);
-
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/expense/delete/${id}`, config)
+            .then(() => {
+                setRevenues(revenues.filter(revenue => revenue.revenueId !== id));
+                setOriginalRevenues(originalRevenues.filter(revenue => revenue.revenueId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting revenue: ', error);
+            });
+    };
 
     const handleFilter = (event) => {
         const { value } = event.target;
@@ -72,8 +80,9 @@ const ListRevenue = () => {
     return (
         <div className="container-fluid">
            <h5 className="d-flex justify-content-center"> Мои приходи </h5>
-            <div className="d-flex justify-content-end">
-                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
+            <div className="d-flex justify-content-end my-1">
+                <label className="me-2 p-1 bg-light bg-gradient"> Пребарај </label>
+                <input type="text" placeholder="семе" onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination

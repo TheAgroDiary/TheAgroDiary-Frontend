@@ -25,13 +25,15 @@ const ListPlantation = () => {
         {name: '',
             cell: row => (
                 <Link to={`/editPlantation/${row.plantationId}`}>
-                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                    <button className="edit-buttons p-2 rounded-2 ms-5"> Измени </button>
                 </Link>
-        )},
+            )
+        },
         {name: '',
             cell: row => (
                 <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.plantationId)}> Отстрани </button>
-        )}
+            )
+        }
     ]
 
     useEffect(() => {
@@ -80,8 +82,9 @@ const ListPlantation = () => {
     return (
         <div className="container-fluid">
             <h5 className="d-flex justify-content-center"> Мои сеидби </h5>
-            <div className="d-flex justify-content-end">
-                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
+            <div className="d-flex justify-content-end my-1">
+                <label className="me-2 p-1 bg-light bg-gradient"> Пребарај </label>
+                <input type="text" placeholder="семе" onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination

@@ -26,9 +26,15 @@ const ListExpense = () => {
         {name: '',
             cell: row => (
                 <Link to={`/editExpense/${row.expenseId}`}>
-                    <button className="edit-buttons p-2 rounded-2"> Измени </button>
+                    <button className="edit-buttons p-2 rounded-2 ms-5"> Измени </button>
                 </Link>
-            )},
+            )
+        },
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.expenseId)}> Отстрани </button>
+            )
+        }
     ]
 
     useEffect(() => {
@@ -49,25 +55,27 @@ const ListExpense = () => {
             });
     };
 
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/expense/delete/${id}`, config)
+            .then(() => {
+                setExpenses(expenses.filter(expense => expense.expenseId !== id));
+                setOriginalExpenses(originalExpenses.filter(expense => expense.expenseId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting expense: ', error);
+            });
+    };
+
     const handleFilter = (event) => {
         const { value } = event.target;
-        let filteredData = null;
         if (value === '') {
             setExpenses(originalExpenses);
         }
         else {
-            const filteredDataCategory = expenses.filter(
-                row => row.category.categpryName.toLowerCase().includes(value.toLowerCase())
+            const filteredData = expenses?.filter(
+                (row) => row?.category?.categoryName?.toLowerCase().includes(value.toLowerCase())
+                || row?.seed?.seedName?.toLowerCase().includes(value.toLowerCase())
             );
-            const filteredDataSeed = expenses.filter(
-                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
-            );
-            if (filteredDataCategory != null) {
-                filteredData = filteredDataCategory;
-            }
-            if (filteredDataSeed != null) {
-                filteredData = filteredDataSeed;
-            }
             setExpenses(filteredData);
         }
     }
@@ -75,8 +83,9 @@ const ListExpense = () => {
     return (
         <div className="container-fluid">
             <h5 className="d-flex justify-content-center"> Мои трошоци </h5>
-            <div className="d-flex justify-content-end">
-                <input type="text" placeholder="Пребарај..." onChange={handleFilter}/>
+            <div className="d-flex justify-content-end my-1">
+                <label className="me-2 p-1 bg-light bg-gradient"> Пребарај </label>
+                <input type="text" placeholder="категорија или семе" onChange={handleFilter}/>
             </div>
             <DataTable
                 pagination
