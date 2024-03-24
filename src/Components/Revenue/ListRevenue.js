@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
 import DataTable from "react-data-table-component";
 import customStyles from "../DataTableCustomStyles";

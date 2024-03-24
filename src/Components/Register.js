@@ -41,7 +41,7 @@ const Register = () => {
 
     return (
         <div className="d-flex justify-content-center align-items-center min-vh-50">
-            {/*<h2 className="d-inline-flex"> Регистрација </h2>*/}
+            {/*<h2 className="d-inline-flex"> Регистрирај се </h2>*/}
             <form className="m-3 w-25" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label> Име </label>
@@ -79,7 +79,7 @@ const Register = () => {
                            className="form-control"
                            onChange={handleChange} required />
                 </div>
-                <button type="submit" className="btn btn-primary my-3"> Потврди </button>
+                <button type="submit" className="btn btn-primary my-3"> Регистрирај се </button>
             </form>
         </div>
     )

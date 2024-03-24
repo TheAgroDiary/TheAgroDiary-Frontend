@@ -20,9 +20,19 @@ const ListExpense = () => {
         {name: 'Категорија', selector: row => row.category.categoryName, sortable: true},
         {name: 'Сума во денари', selector: row => row.expenseSum, sortable: true},
         {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
-        {name: 'Количина на семе', selector: row => row.seedAmountKg, sortable: true},
-        {name: 'Опис', selector: row => row.description},
-        {name: 'Датум', selector: row => new Date(row.date).toLocaleDateString(), sortable: true},
+        {name: 'Количина', selector: row => row.seedAmountKg, sortable: true},
+        {name: 'Опис', selector: row => row.description,
+            conditionalCellStyles: [
+                {
+                    when: row => row.description.length > 40, // Adjust the threshold as needed
+                    style: {
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                    },
+                },
+            ],
+        },
+        // {name: 'Датум', selector: row => new Date(row.date).toLocaleDateString(), sortable: true},
         {name: '',
             cell: row => (
                 <Link to={`/editExpense/${row.expenseId}`}>

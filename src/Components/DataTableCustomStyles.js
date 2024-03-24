@@ -25,6 +25,11 @@ const customStyles = {
             color: 'black',
             // fontFamily: 'Segoe UI Semibold',
             fontFamily: 'Arial',
+
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            // maxWidth: "1500px", // Adjust as needed
         },
     },
 }
