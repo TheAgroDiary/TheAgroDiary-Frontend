@@ -40,28 +40,47 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h2> Регистрација </h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="firstName"> Име </label>
-                        <input type="text" id="firstName" name="firstName" onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="lastName"> Презиме </label>
-                        <input type="text" id="lastName" name="lastName" onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="username"> Корисничко име </label>
-                        <input type="text" id="username" name="username" onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="password"> Лозинка </label>
-                        <input type="password" id="password" name="password" onChange={handleChange} required />
-                    </div>
-                    <button type="submit"> Потврди </button>
-                </form>
-
+        <div className="d-flex justify-content-center align-items-center min-vh-50">
+            {/*<h2 className="d-inline-flex"> Регистрирај се </h2>*/}
+            <form className="m-3 w-25" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label> Име </label>
+                    <input type="text"
+                           id="firstName"
+                           name="firstName"
+                           placeholder="Име"
+                           className="form-control"
+                           onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label> Презиме </label>
+                    <input type="text"
+                           id="lastName"
+                           name="lastName"
+                           placeholder="Презиме"
+                           className="form-control"
+                           onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label> Корисничко име </label>
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           placeholder="Корисничко име"
+                           className="form-control"
+                           onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label> Лозинка </label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Лозинка"
+                           className="form-control"
+                           onChange={handleChange} required />
+                </div>
+                <button type="submit" className="btn btn-primary my-3"> Регистрирај се </button>
+            </form>
         </div>
     )
 

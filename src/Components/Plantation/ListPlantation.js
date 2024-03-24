@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles"
 
 const ListPlantation = () => {
+    const { id } = useParams();
     const [plantations, setPlantations] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [plantationsPerPage] = useState(5); // Change this value for items per page
+    const [originalPlantations, setOriginalPlantations] = useState([]);
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -16,6 +17,25 @@ const ListPlantation = () => {
         }
     };
 
+    const columns = [
+        {name: 'Година', selector: row => row.year, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Вид семе', selector: row => row.type, sortable: true},
+        {name: 'Количина во кг.', selector: row => row.amountKg, sortable: true},
+        {name: '',
+            cell: row => (
+                <Link to={`/editPlantation/${row.plantationId}`}>
+                    <button className="edit-buttons p-2 rounded-2 ms-5"> Измени </button>
+                </Link>
+            )
+        },
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.plantationId)}> Отстрани </button>
+            )
+        }
+    ]
+
     useEffect(() => {
         fetchPlantations();
     }, []);
@@ -23,56 +43,69 @@ const ListPlantation = () => {
     const fetchPlantations = () => {
         axios.get('http://localhost:9091/api/plantation/my', config)
             .then(response => {
-                setPlantations(response.data);
+                // Sort the plantations by updatedAt or createdAt in descending order
+                const sortedPlantations = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt); // Replace 'updatedAt' with the appropriate field
+                });
+                setPlantations(sortedPlantations);
+                setOriginalPlantations(sortedPlantations);
             })
             .catch(error => {
                 console.error('Error fetching plantations: ', error);
             });
     };
 
-    // Pagination
-    const indexOfLastPlantation = currentPage * plantationsPerPage;
-    const indexOfFirstPlantation = indexOfLastPlantation - plantationsPerPage;
-    const currentPlantations = plantations.slice(indexOfFirstPlantation, indexOfLastPlantation);
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/plantation/delete/${id}`, config)
+            .then(() => {
+                setPlantations(plantations.filter(plantation => plantation.plantationId !== id));
+                setOriginalPlantations(originalPlantations.filter(plantation => plantation.plantationId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting plantation: ', error);
+            });
+    };
 
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    const handleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setPlantations(originalPlantations);
+        }
+        else {
+            const filteredData = plantations.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setPlantations(filteredData);
+        }
+    }
+    
     return (
-        <div>
-            <Link to="/yield/add">
-                <button className="btn btn-primary">
-                    Додади нова сеидба
-                </button>
-            </Link>
-            <table>
-                <thead>
-                <tr>
-                    <th> ИД </th>
-                    <th> Семе </th>
-                    <th> Вид семе </th>
-                    <th> Количина во кг. </th>
-                    <th>  </th>
-                    {/* Add more table headers as needed */}
-                </tr>
-                </thead>
-                <tbody>
-                {currentPlantations.map(plantation => (
-                    <tr key={plantation.plantationId}>
-                        <td>{plantation.plantationId}</td>
-                        <td>{plantation.seed.seedName}</td>
-                        <td>{plantation.type}</td>
-                        <td>{plantation.amountKg}</td>
-                        <td> <Link to={`/editYield/${plantation.plantationId}`}> <button> Измени </button> </Link> </td>
-                        {/* Add more table data as needed */}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={plantationsPerPage}
-                totalItems={plantations.length}
-                paginate={paginate}
-            />
+        <div className="container-fluid">
+            <h5 className="d-flex justify-content-center"> Мои сеидби </h5>
+            <div className="d-flex justify-content-end my-1">
+                <label className="me-2 p-1 bg-light bg-gradient"> Пребарај </label>
+                <input type="text" placeholder="семе" onChange={handleFilter}/>
+            </div>
+            <DataTable
+                pagination
+                columns={columns}
+                data={plantations}
+                customStyles={customStyles}
+                highlightOnHover
+            >
+            </DataTable>
+            <div className="justify-content-center d-flex my-3">
+                <Link to="/plantation/add">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Додади сеидба
+                    </button>
+                </Link>
+                <Link to="/plantation/statistics">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Прикажи статистики
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };

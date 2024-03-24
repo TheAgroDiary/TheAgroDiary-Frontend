@@ -11,3 +11,104 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.logo {
+  height: 30px;
+  /*max-height: 70px;*/
+  overflow: auto;
+  width: auto;
+  /*position: absolute;*/
+}
+
+.navigation-bar {
+  background-color: #4EAE3A;
+}
+
+.menu-bar-items:hover {
+  background-color: forestgreen;
+}
+
+.my-list li :hover {
+  color: whitesmoke;
+}
+
+#home :hover {
+  color: whitesmoke;
+}
+
+.dropdown-nav-list li :hover {
+  background-color: #4EAE3A;
+}
+
+.add-new {
+  border-style: outset;
+  border-color: darkslateblue;
+
+}
+
+.add-new:hover {
+  /*color: royalblue;*/
+  /*font-weight: bold;*/
+  background-image: linear-gradient(whitesmoke, cornflowerblue);
+}
+
+.edit-buttons {
+  background-color: inherit;
+  border-style: inset;
+  border-color: forestgreen;
+}
+
+.edit-buttons:hover {
+  color: whitesmoke;
+  background-color: #4EAE3A;
+  background-image: linear-gradient(to bottom right, #4EAE3A, darkgreen);
+}
+
+.delete-buttons {
+  background-color: inherit;
+  border-style: inset;
+  border-color: darkred;
+}
+
+.delete-buttons:hover {
+  color: whitesmoke;
+  background-color: indianred;
+  background-image: linear-gradient(to bottom right, indianred, darkred);
+}
+
+.form-body {
+  border-bottom-style: ridge;
+  border-color: forestgreen;
+}
+
+.carousel-images {
+  width: 1000px;
+  height: 850px;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: auto;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Show the tooltip text when you hover over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

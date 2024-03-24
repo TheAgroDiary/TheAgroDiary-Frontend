@@ -7,7 +7,7 @@ const Header = () => {
     const navigate = useNavigate();
     // const username = getUserInfoFromToken();
     const user  = useAuth();
-    console.log('User is: ', user)
+    // console.log('User is: ', user.username)
     let authenticate;
 
     const handleLogout = () => {
@@ -19,72 +19,72 @@ const Header = () => {
         navigate('/login')
     };
 
+    let home = (
+        <a id="home" className="text-light text-opacity-75 navbar-brand rounded-2 p-2" href="/home">
+            <img src="./assets/images/logo3.png" className="logo" alt="Почетна"/>
+        </a>
+    )
+
     if (localStorage.getItem('jwt')) {
         authenticate = (
-            <ul className="navbar-nav col-md-8">
-                <Link to="/plantation/all">
-                    <li className="nav-item d-inline-flex col-2 mx-1"> Сеидби </li>
-                </Link>
-                <Link to="/yield/all">
-                    <li className="nav-item d-inline-flex col-2 mx-1"> Приноси </li>
-                </Link>
-                <Link to="/expense/all">
-                    <li className="nav-item d-inline-flex col-2 mx-1"> Трошоци </li>
-                </Link>
-                <Link to="/revenue/all">
-                    <li className="nav-item d-inline-flex col-2 mx-1"> Приходи </li>
-                </Link>
-                <h3> {user} </h3>
-                <button className="nav-item d-inline-flex col-md-2 btn btn-primary" onClick={handleLogout}>
-                    Одјави се
-                </button>
-            </ul>
-
+            <div className="container-fluid">
+                {home}
+                <ul className="my-list navbar-nav d-flex flex-row me-1">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/plantation/all" className="menu-bar-items nav-link rounded-2"> Сеидби </Link>
+                    </li>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/yield/all" className="menu-bar-items nav-link rounded-2"> Приноси </Link>
+                    </li>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/expense/all" className="menu-bar-items nav-link rounded-2"> Трошоци </Link>
+                    </li>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/revenue/all" className="menu-bar-items nav-link rounded-2"> Приходи </Link>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i className="fas fa-user mx-1"></i> Профил
+                        </a>
+                        <ul className="dropdown-menu dropdown-menu-end dropdown-nav-list" aria-labelledby="navbarDropdown">
+                            <li>
+                                <Link to="/myProfile" className="ropdown-item fw-medium unlink"
+                                      style={{ textDecoration: 'none' }}>
+                                    <button className="dropdown-item fw-medium" href="/myProfile">
+                                        Мој профил
+                                    </button>
+                                </Link>
+                            </li>
+                            <li>
+                                <button className="dropdown-item fw-medium" onClick={handleLogout}> Одјави се </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         )
     }
     else {
         authenticate = (
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <Link to="/login" className="nav-link">
-                        <button className="btn btn-success"> Најави се </button>
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                        <button className="btn btn-primary"> Регистрирај се </button>
-                    </Link>
-                </li>
-            </ul>
+            <div className="container-fluid">
+                {home}
+                <ul className="navbar-nav d-flex flex-row me-1">
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/login" className="menu-bar-items nav-link rounded-2 fw-medium"> Најави се </Link>
+                    </li>
+                    <li className="nav-item me-3 me-lg-0 fw-medium">
+                        <Link to="/register" className="menu-bar-items nav-link rounded-2 fw-medium"> Регистрирај се </Link>
+                    </li>
+                </ul>
+            </div>
         )
     }
 
     return (
-        <header className="bg-gradient bg-secondary-subtle">
-            <nav className="navbar navbar-expand-lg">
-                <div className="container">
-                    {/* Left Side - Home and Other Links */}
-                    <div className="navbar-collapse justify-content-start">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link to="/home" className="nav-link text-dark fw-bold">
-                                    Почетна
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/" className="nav-link"> Друго </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Right Side - Login/Logout */}
-                    <div className="navbar-collapse justify-content-end">
-                        {authenticate}
-                    </div>
-                </div>
-            </nav>
-        </header>
-
+        <nav className="navbar navbar-expand-lg navbar-dark navigation-bar">
+            {authenticate}
+        </nav>
     )
 }
 

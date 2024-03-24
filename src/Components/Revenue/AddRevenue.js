@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const AddRevenue = () => {
@@ -63,25 +63,40 @@ const AddRevenue = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
+                <select name="seedId" className="form-control my-2" required onChange={handleChange} value={formData.seedId}>
+                    <option value="" disabled> Одбери семе </option>
+                    {seeds.map(seed => (
+                        <option key={seed.seedId} value={seed.seedId}>
+                            {seed.seedName}
+                        </option>
+                    ))}
+                </select>
+                <label> Количина кг. </label>
                 <input
-                    type="number"
-                    onChange={handleChange}
-                    name='revenueSum'
-                    placeholder="Сума МКД"
-                />
-                <input
-                    type="date"
-                    onChange={handleChange}
-                    name='date'
-                    placeholder="Датум"
-                />
-                <input
-                    type="number"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='seedAmountKg'
                     placeholder="Количина кг."
+                />
+                <label> Износ мкд </label>
+                <input
+                    className="form-control my-2"
+                    required
+                    onChange={handleChange}
+                    name='revenueSum'
+                    placeholder="Износ мкд"
+                />
+                <label> Датум </label>
+                <input
+                    type="date"
+                    className="form-control my-2"
+                    onChange={handleChange}
+                    name='date'
+                    placeholder="Датум"
                 />
                 <input
                     type="hidden"
@@ -91,15 +106,8 @@ const AddRevenue = () => {
                     value={formData.personId} // Set value from state
                     readOnly // Prevent user from editing the username field
                 />
-                <select name="seedId" onChange={handleChange} value={formData.seedId}>
-                    <option value="" disabled>Select Seed</option>
-                    {seeds.map(seed => (
-                        <option key={seed.seedId} value={seed.seedId}>
-                            {seed.seedName}
-                        </option>
-                    ))}
-                </select>
-                <button type='submit'> Додади приход </button>
+                <button type='submit' className="btn btn-success"> Додади приход </button>
+                <Link to="/revenue/all" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );

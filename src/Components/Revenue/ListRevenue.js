@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "../Pagination";
 import {Link} from "react-router-dom";
+import DataTable from "react-data-table-component";
+import customStyles from "../DataTableCustomStyles";
 
 const ListRevenue = () => {
     const [revenues, setRevenues] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [revenuesPerPage] = useState(5); // Change this value for items per page
+    const [originalRevenues, setOriginalRevenues] = useState([]);
 
     const token = localStorage.getItem('jwt');
     const config = {
@@ -16,6 +16,25 @@ const ListRevenue = () => {
         }
     };
 
+    const columns = [
+        {name: 'Сума во денари', selector: row => row.revenueSum, sortable: true},
+        {name: 'Семе', selector: row => row.seed.seedName, sortable: true},
+        {name: 'Количина во кг.', selector: row => row.seedAmountKg, sortable: true},
+        {name: 'Датум', selector: row => new Date(row.date).toLocaleDateString(), sortable: true},
+        {name: '',
+            cell: row => (
+                <Link to={`/editRevenue/${row.revenueId}`}>
+                    <button className="edit-buttons p-2 rounded-2 ms-5"> Измени </button>
+                </Link>
+            )
+        },
+        {name: '',
+            cell: row => (
+                <button className="delete-buttons p-2 rounded-2" onClick={() => handleDelete(row.revenueId)}> Отстрани </button>
+            )
+        }
+    ]
+
     useEffect(() => {
         fetchRevenues();
     }, []);
@@ -23,58 +42,67 @@ const ListRevenue = () => {
     const fetchRevenues = () => {
         axios.get('http://localhost:9091/api/revenue/my', config)
             .then(response => {
-                setRevenues(response.data);
+                const sortedRevenues = response.data.sort((a, b) => {
+                    return new Date(b.updatedAt) - new Date(a.updatedAt);
+                })
+                setRevenues(sortedRevenues);
             })
             .catch(error => {
                 console.error('Error fetching revenues: ', error);
             });
     };
 
-    // Pagination
-    const indexOfLastRevenue = currentPage * revenuesPerPage;
-    const indexOfFirstRevenue = indexOfLastRevenue - revenuesPerPage;
-    const currentRevenues = revenues.slice(indexOfFirstRevenue, indexOfLastRevenue);
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:9091/api/expense/delete/${id}`, config)
+            .then(() => {
+                setRevenues(revenues.filter(revenue => revenue.revenueId !== id));
+                setOriginalRevenues(originalRevenues.filter(revenue => revenue.revenueId !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting revenue: ', error);
+            });
+    };
 
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const handleFilter = (event) => {
+        const { value } = event.target;
+        if (value === '') {
+            setRevenues(originalRevenues);
+        }
+        else {
+            const filteredData = revenues.filter(
+                row => row.seed.seedName.toLowerCase().includes(value.toLowerCase())
+            );
+            setRevenues(filteredData);
+        }
+    }
 
     return (
-        <div>
-            <Link to="/revenue/add">
-                <button className="btn btn-primary">
-                    Додади нов приход од сеидба
-                </button>
-            </Link>
-            <table>
-                <thead>
-                <tr>
-                    <th> ИД </th>
-                    <th> Семе </th>
-                    <th> Количина на семе </th>
-                    <th> Датум </th>
-                    <th> Сума во денари </th>
-                    <th> </th>
-                    {/* Add more table headers as needed */}
-                </tr>
-                </thead>
-                <tbody>
-                {currentRevenues.map(revenue => (
-                    <tr key={revenue.revenueId}>
-                        <td>{revenue.revenueId}</td>
-                        <td>{revenue.seed.seedName}</td>
-                        <td>{revenue.seedAmountKg}</td>
-                        <td>{revenue.date}</td>
-                        <td>{revenue.revenueSum}</td>
-                        <td> <Link to={`/editRevenue/${revenue.revenueId}`}> <button> Измени </button> </Link> </td>
-                        {/* Add more table data as needed */}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination
-                itemsPerPage={revenuesPerPage}
-                totalItems={revenues.length}
-                paginate={paginate}
-            />
+        <div className="container-fluid">
+           <h5 className="d-flex justify-content-center"> Мои приходи </h5>
+            <div className="d-flex justify-content-end my-1">
+                <label className="me-2 p-1 bg-light bg-gradient"> Пребарај </label>
+                <input type="text" placeholder="семе" onChange={handleFilter}/>
+            </div>
+            <DataTable
+                pagination
+                columns={columns}
+                data={revenues}
+                customStyles={customStyles}
+                highlightOnHover
+            >
+            </DataTable>
+            <div className="justify-content-center d-flex my-3">
+                <Link to="/revenue/add">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Додади приход
+                    </button>
+                </Link>
+                <Link to="/revenue/statistics">
+                    <button className="add-new p-2 rounded-2 mx-1">
+                        Прикажи статистики
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };

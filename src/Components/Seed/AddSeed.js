@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 
@@ -21,16 +21,14 @@ const AddSeed = () => {
         }
     }
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({... formData, [name]: value});
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('http://localhost:9091/api/seed/add', formData, config);
+            const res = await axios.post(
+                'http://localhost:9091/api/seed/add',
+                formData,
+                config);
             setResponse(res.data);
             navigate('/home')
         }
@@ -40,16 +38,28 @@ const AddSeed = () => {
         }
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value
+        }));
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-center align-items-center">
+            <form className="m-3 p-3 w-50 form-body" onSubmit={handleSubmit}>
+                <label> Семе </label>
                 <input
                     type="text"
+                    className="form-control my-2"
+                    required
                     onChange={handleChange}
                     name='seedName'
-                    placeholder="Seed Name"
+                    placeholder="Семе"
                 />
-                <button type='submit'>Add Seed</button>
+                <button type='submit' className="btn btn-success"> Додади семе </button>
+                <Link to="/home" className="mx-3 btn btn-danger text-white"> Откажи </Link>
             </form>
         </div>
     );
